@@ -19,41 +19,7 @@ export default function RecursalPrevLanding() {
   });
 
   const planos = [
-    {
-      nome: "Avulso",
-      preco: "R$ 599",
-      sub: "por recurso",
-      extras: "Uso sob demanda",
-      features: [
-        "1 recurso por vez",
-        "Entrega em até 24h úteis"
-      ],
-    },
-    {
-      nome: "Lite",
-      preco: "R$ 399",
-      sub: "por recurso",
-      extras: "Atende demandas sazionais",
-      features: [
-        "Mínimo de 5 recursos por mês",
-        "Carência de 1 mês",
-        "Suporte via chat",
-        "R$ 499 por recurso adicional",
-      ],
-    },
-    {
-      nome: "Pro",
-      preco: "R$ 199",
-      sub: "por recurso",
-      extras: "Ideal para demandas de médio prazo.",
-      features: [
-        "Mínimo de 40 recursos por mês",
-        "Bônus de 3 recursos no mês",
-        "Carência de 6 meses",
-        "Suporte via chat + 2 horas disponiveis para reuniões online",
-        "R$ 299 por recurso adicional",
-      ],
-    },
+
     {
       nome: "Premium",
       preco: "R$ 169",
@@ -67,6 +33,45 @@ export default function RecursalPrevLanding() {
          "R$ 269 por recurso adicional",
       ],
     },
+
+    {
+      nome: "Pro",
+      preco: "R$ 199",
+      sub: "por recurso",
+      extras: "Ideal para demandas de médio prazo.",
+      features: [
+        "Mínimo de 40 recursos por mês",
+        "Bônus de 3 recursos no mês",
+        "Carência de 6 meses",
+        "Suporte via chat + 2 horas disponiveis para reuniões online",
+        "R$ 299 por recurso adicional",
+      ],
+    },
+
+/*     {
+      nome: "Lite",
+      preco: "R$ 399",
+      sub: "por recurso",
+      extras: "Atende demandas sazionais",
+      features: [
+        "Mínimo de 5 recursos por mês",
+        "Carência de 1 mês",
+        "Suporte via chat",
+        "R$ 499 por recurso adicional",
+      ],
+    }, */
+
+    {
+      nome: "Avulso",
+      preco: "R$ 599",
+      sub: "por recurso",
+      extras: "Uso sob demanda",
+      features: [
+        "1 recurso por vez",
+        "Entrega em até 24h úteis"
+      ],
+    },
+  
   ];
 
   function scrollToId(id) {
