@@ -26,45 +26,45 @@ export default function RecursalPrevLanding() {
       extras: "Uso sob demanda",
       features: [
         "1 recurso por vez",
-        "Entrega em até 24h úteis",
-        "Revisão humana incluída",
-        "Ideal para testes ou baixa demanda",
+        "Entrega em até 24h úteis"
       ],
     },
     {
-      nome: "Mensal",
-      preco: "R$ 1.999/mês",
-      sub: "até 5 recursos",
-      extras: "R$ 399 por recurso adicional",
+      nome: "Lite",
+      preco: "R$ 399",
+      sub: "por recurso",
+      extras: "Atende demandas sazionais",
       features: [
-        "5 recursos/mês incluídos",
-        "Revisão humana em todos",
-        "Acesso à biblioteca de teses",
-        "Suporte prioritário",
+        "Mínimo de 5 recursos por mês",
+        "Carência de 1 mês",
+        "Suporte via chat",
+        "R$ 499 por recurso adicional",
       ],
     },
     {
-      nome: "Semestral",
-      preco: "R$ 7.999/mês",
-      sub: "até 40 recursos (+3 extras)",
-      extras: "R$ 299 por recurso adicional",
+      nome: "Pro",
+      preco: "R$ 199",
+      sub: "por recurso",
+      extras: "Ideal para demandas de médio prazo.",
       features: [
-        "40 recursos/mês incluídos",
-        "3 recursos bônus",
-        "Revisão e formatação premium",
-        "Integração com sistemas de escritório",
+        "Mínimo de 40 recursos por mês",
+        "Bônus de 3 recursos no mês",
+        "Carência de 6 meses",
+        "Suporte via chat + 2 horas disponiveis para reuniões online",
+        "R$ 299 por recurso adicional",
       ],
     },
     {
-      nome: "Anual",
-      preco: "R$ 9.999/mês",
-      sub: "até 60 recursos (+5 extras)",
-      extras: "R$ 199 por recurso adicional",
+      nome: "Premium",
+      preco: "R$ 169",
+      sub: "por recurso",
+      extras: "Ótimo para escalar e padronizar recursos",
       features: [
-        "60 recursos/mês incluídos",
-        "5 recursos bônus",
-        "API dedicada e relatórios mensais",
-        "Suporte e onboarding personalizado",
+        "Mínimo 60 recursos por mês",
+        "Bônus de 5 recursos no mês",
+        "Carência miníma de 12 meses",
+        "Suporte personalizado 24x7",
+         "R$ 269 por recurso adicional",
       ],
     },
   ];
@@ -196,17 +196,16 @@ export default function RecursalPrevLanding() {
               ]}
               typeSpeed={60}
               backSpeed={10}
-              showCursor={false}
+              showCursor={true}
             />
           </h1>
 
           <p className="mt-4 text-slate-600 text-base sm:text-lg max-w-2xl mx-auto">
-            Plataforma para escritórios que desejam escalar a elaboração de recursos do INSS
-            com qualidade e consistência.
+            Plataforma para escritórios que desejam escalar a elaboração de recursos em processos previdenciários.
           </p>
 
           <ul className="mt-6 grid gap-3 text-slate-700">
-            <li>• Geração de minutas em minutos</li>
+            <li>• Eficiência e agilidade na elaboração de recursos por especialista em recursos</li>
             <li>• Argumentação baseada em casos reais e jurisprudência</li>
             <li>• Estilo adaptado ao seu escritório</li>
           </ul>
@@ -233,7 +232,7 @@ export default function RecursalPrevLanding() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { t: "Velocidade com qualidade", d: "Padronize a escrita sem perder rigor técnico." },
-            { t: "Base proprietária", d: "Experiência consolidada em previdenciário (10+ anos)." },
+            { t: "Base proprietária", d: "Experiência consolidada com 20 anos de experiência em atuação recursal" },
             { t: "Conformidade", d: "Privacidade por padrão e revisão humana obrigatória." },
           ].map((c) => (
             <div key={c.t} className="rounded-2xl border border-slate-200 bg-white p-6">
