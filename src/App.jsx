@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ReactTyped } from "react-typed";
 
-
 export default function RecursalPrevLanding() {
   // Executando local: sem envio real
   const FORMSPREE_ENDPOINT = "";
@@ -19,59 +18,53 @@ export default function RecursalPrevLanding() {
   });
 
   const planos = [
-
-    {
-      nome: "Premium",
-      preco: "R$ 169",
-      sub: "por recurso",
-      extras: "Ótimo para escalar e padronizar recursos",
-      features: [
-        "Mínimo 60 recursos por mês",
-        "Bônus de 5 recursos no mês",
-        "Carência miníma de 12 meses",
-        "Suporte personalizado 24x7",
-         "R$ 269 por recurso adicional",
-      ],
-    },
-
-    {
-      nome: "Pro",
-      preco: "R$ 199",
-      sub: "por recurso",
-      extras: "Ideal para demandas de médio prazo.",
-      features: [
-        "Mínimo de 40 recursos por mês",
-        "Bônus de 3 recursos no mês",
-        "Carência de 6 meses",
-        "Suporte via chat + 2 horas disponiveis para reuniões online",
-        "R$ 299 por recurso adicional",
-      ],
-    },
-
-/*     {
-      nome: "Lite",
-      preco: "R$ 399",
-      sub: "por recurso",
-      extras: "Atende demandas sazionais",
-      features: [
-        "Mínimo de 5 recursos por mês",
-        "Carência de 1 mês",
-        "Suporte via chat",
-        "R$ 499 por recurso adicional",
-      ],
-    }, */
-
     {
       nome: "Avulso",
       preco: "R$ 599",
       sub: "por recurso",
       extras: "Uso sob demanda",
+      features: ["1 recurso por vez", "Entrega em até 72h úteis"],
+    },
+    {
+      nome: "Lite",
+      preco: "R$ 1.999",
+      sub: "por mês",
+      extras: "Atende demandas sazonais",
       features: [
-        "1 recurso por vez",
-        "Entrega em até 24h úteis"
+        "5 recursos por mês",
+        "Carência de 1 mês",
+        "Suporte via chat",
+        "R$ 399 por recurso adicional",
       ],
     },
-  
+    {
+      nome: "Pro",
+      preco: "R$ 7.999",
+      sub: "por mês",
+      extras: "Ideal para demandas de médio prazo",
+      features: [
+        "40 recursos por mês",
+        "Bônus de 3 recursos no mês",
+        "Carência de 6 meses",
+        "Suporte via chat",
+        "30 minutos/mês em reuniões online",
+        "R$ 299 por recurso adicional",
+      ],
+    },
+    {
+      nome: "Premium",
+      preco: "R$ 9.999",
+      sub: "por mês",
+      extras: "Ótimo para escalar e padronizar recursos",
+      features: [
+        "60 recursos por mês",
+        "Bônus de 5 recursos no mês",
+        "Carência mínima de 12 meses",
+        "Suporte jurídico via chat em três processos",
+        "60 minutos/mês em reuniões online",
+        "R$ 199 por recurso adicional",
+      ],
+    },
   ];
 
   function scrollToId(id) {
@@ -83,16 +76,8 @@ export default function RecursalPrevLanding() {
     e.preventDefault();
     setLoading(true);
     try {
-      // quando tiver endpoint, descomente para enviar de verdade:
-      // if (FORMSPREE_ENDPOINT) {
-      //   const res = await fetch(FORMSPREE_ENDPOINT, {
-      //     method: "POST",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify(form),
-      //   });
-      //   if (!res.ok) throw new Error("Falha ao enviar");
-      // }
-      await new Promise((r) => setTimeout(r, 700)); // simulação local
+      // futuramente trocamos por envio real
+      await new Promise((r) => setTimeout(r, 700));
       setStatus({ ok: true, error: "" });
       setForm({
         nome: "",
@@ -128,6 +113,9 @@ export default function RecursalPrevLanding() {
 
           {/* menu desktop */}
           <nav className="hidden md:flex items-center gap-6 text-sm">
+            <button className="hover:text-slate-900" onClick={() => scrollToId("quem-somos")}>
+              Quem somos
+            </button>
             <button className="hover:text-slate-900" onClick={() => scrollToId("como-funciona")}>
               Como funciona
             </button>
@@ -147,7 +135,7 @@ export default function RecursalPrevLanding() {
             onClick={() => scrollToId("lead")}
             className="hidden md:inline-flex px-4 py-2 rounded-xl bg-slate-900 text-white text-sm font-medium"
           >
-            Quero testar
+            Solicitar proposta
           </button>
 
           {/* hambúrguer mobile */}
@@ -165,6 +153,9 @@ export default function RecursalPrevLanding() {
         {mobileOpen && (
           <div className="md:hidden px-4 pb-3">
             <div className="rounded-2xl border border-slate-200 bg-white p-3 grid gap-2">
+              <button className="text-left py-2" onClick={() => scrollToId("quem-somos")}>
+                Quem somos
+              </button>
               <button className="text-left py-2" onClick={() => scrollToId("como-funciona")}>
                 Como funciona
               </button>
@@ -181,7 +172,7 @@ export default function RecursalPrevLanding() {
                 className="mt-2 h-11 rounded-xl bg-slate-900 text-white font-medium"
                 onClick={() => scrollToId("lead")}
               >
-                Quero testar
+                Solicitar proposta
               </button>
             </div>
           </div>
@@ -194,11 +185,13 @@ export default function RecursalPrevLanding() {
         className="w-full px-4 md:px-8 pt-24 pb-16 flex flex-col items-center justify-center text-center"
       >
         <div className="max-w-[900px]">
-          <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
+            Operando com revisão jurídica especializada
+          </div>
+
+          <h1 className="mt-3 text-center text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
             <ReactTyped
-              strings={[
-                "Recursos previdenciários mais rápidos e padronizados",
-              ]}
+              strings={["Recursos previdenciários padronizados e com qualidade"]}
               typeSpeed={60}
               backSpeed={10}
               showCursor={true}
@@ -206,13 +199,14 @@ export default function RecursalPrevLanding() {
           </h1>
 
           <p className="mt-4 text-slate-600 text-base sm:text-lg max-w-2xl mx-auto">
-            Plataforma para escritórios que desejam escalar a elaboração de recursos em processos previdenciários.
+            Atendemos escritórios que desejam escalar a elaboração de recursos previdenciários com
+            padronização, qualidade e previsibilidade operacional.
           </p>
 
           <ul className="mt-6 grid gap-3 text-slate-700">
-            <li>• Eficiência e agilidade na elaboração de recursos por especialista em recursos</li>
-            <li>• Argumentação baseada em casos reais e jurisprudência</li>
-            <li>• Estilo adaptado ao seu escritório</li>
+            <li>• Argumentação com base em casos e jurisprudência</li>
+            <li>• Processo consolidado com dupla revisão técnica especializada</li>
+            <li>• Estilo e padronização adaptados ao seu escritório</li>
           </ul>
 
           <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -220,7 +214,7 @@ export default function RecursalPrevLanding() {
               onClick={() => scrollToId("lead")}
               className="px-5 py-3 rounded-xl bg-slate-900 text-white font-medium"
             >
-              Entrar na lista de teste
+              Solicitar proposta
             </button>
             <button
               onClick={() => scrollToId("planos")}
@@ -232,13 +226,121 @@ export default function RecursalPrevLanding() {
         </div>
       </section>
 
+      {/* QUEM SOMOS */}
+
+        <section id="quem-somos" className="w-full px-6 md:px-12 py-16 bg-white">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-semibold mb-10 text-slate-900 border-b border-slate-200 pb-2">
+              Quem Somos
+            </h2>
+
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-10">
+              {/* FOTO À ESQUERDA */}
+              <div className="flex-shrink-0">
+                <div className="w-[280px] h-[340px] rounded-2xl overflow-hidden shadow-lg bg-slate-100">
+                  <img
+                    src="Haruana.png"
+                    alt="Dr. Haruanã Cachorroski Cardoso"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
+
+              {/* TEXTO À DIREITA */}
+              <div className="flex-1 text-slate-800 leading-relaxed">
+                <p className="text-lg text-slate-700 mb-4">
+                  A <strong>RecursalPrev</strong> nasceu para fortalecer a credibilidade e a eficiência dos
+                  escritórios parceiros, oferecendo operação padronizada, revisão jurídica especializada e
+                  previsibilidade no fluxo de produção de recursos previdenciários.
+                </p>
+
+                <h3 className="text-xl font-semibold mt-6">Fundador e CEO</h3>
+                <p className="uppercase text-sm text-slate-500 tracking-wide mb-3">
+                  Dr. Haruanã Cachorroski Cardoso
+                </p>
+
+                <p className="text-slate-700 mb-4">
+                  Com quase <strong>20 anos de atuação</strong> em prática recursal, o Dr. Haruanã é reconhecido
+                  por sua ética e excelência técnica em sustentações orais e peças recursais. Também é
+                  idealizador do <strong>Canal “Advogado dos Advogados”</strong>, iniciativa que amplia a
+                  visibilidade e a autoridade de profissionais e escritórios por meio de conteúdo jurídico de
+                  alta qualidade.
+                </p>
+
+                <div className="text-sm text-slate-600 mt-4">
+                  <a
+                    href="https://instagram.com/HaruanaCachorroski"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-slate-900 hover:underline"
+                  >
+                    @HaruanaCachorroski
+                  </a>
+                  <div>haruanacachorroski@gmail.com • (83) 98803-0180</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+      {/* COMO FUNCIONA (âncora simples) */}
+
+        <section id="como-funciona" className="w-full px-6 md:px-10 py-16 bg-slate-50">
+          <div className="max-w-6xl mx-auto text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-2">Como a RecursalPrev funciona</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Nosso processo foi desenvolvido para garantir qualidade técnica, previsibilidade e transparência
+              em cada etapa da produção recursal.
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start justify-between gap-8 md:gap-4">
+            {[
+              { title: "Envio do caso", text: "Você encaminha o processo e observações pelo canal seguro da RecursalPrev.", image: "/images/icons/1-envio.png" },
+              { title: "Análise inicial", text: "Nossa equipe revisa os documentos e define a estratégia recursal mais adequada.", image: "/images/icons/2-analise.png" },
+              { title: "Elaboração", text: "O recurso é redigido conforme jurisprudência atual e o padrão do seu escritório.", image: "/images/icons/3-elaboracao.png" },
+              { title: "Revisão técnica", text: "Dupla revisão jurídica assegura consistência argumentativa e qualidade técnica.", image: "/images/icons/4-revisao.png" },
+              { title: "Entrega e ajustes", text: "O recurso é entregue dentro do prazo, com histórico e possibilidade de ajustes.", image: "/images/icons/5-entrega.png" },
+              { title: "Acompanhamento", text: "Suporte contínuo e reuniões periódicas nos planos Pro e Premium.", image: "/images/icons/6-acompanhamento.png" },
+            ].map((step, i, arr) => (
+              <div key={step.title} className="flex-1 flex flex-col items-center text-center relative">
+                {/* Linha de conexão entre os círculos */}
+                {i < arr.length - 1 && (
+                  <div className="hidden md:block absolute top-12 right-[-8%] w-[16%] h-[2px] bg-slate-300 z-0"></div>
+                )}
+
+                {/* Ícone dentro da bolinha */}
+
+                <div className="w-24 h-24 rounded-full bg-sky-600 grid place-items-center shadow-md">
+                  <img
+                    src={step.image}
+                    alt={step.title}
+                    className="w-20 h-20 object-contain object-center block"
+                  />
+                </div>
+
+
+                {/* Texto */}
+                <div className="mt-4 max-w-[220px]">
+                  <h3 className="font-semibold text-lg text-slate-800">{step.title}</h3>
+                  <p className="text-sm text-slate-600 mt-1">{step.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+
+
       {/* BENEFÍCIOS */}
-      <section id="beneficios" className="w-full px-4 md:px-8 py-12">
+      {/* <section id="beneficios" className="w-full px-4 md:px-8 py-12">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { t: "Velocidade com qualidade", d: "Padronize a escrita sem perder rigor técnico." },
-            { t: "Base proprietária", d: "Experiência consolidada com 20 anos de experiência em atuação recursal" },
-            { t: "Conformidade", d: "Privacidade por padrão e revisão humana obrigatória." },
+            { t: "Velocidade com qualidade", d: "Padronização de escrita com rigor técnico." },
+            { t: "Metodologia recursal", d: "Processo consolidado com revisão jurídica especializada." },
+            { t: "Conformidade", d: "Privacidade por padrão e auditoria interna de conteúdo." },
           ].map((c) => (
             <div key={c.t} className="rounded-2xl border border-slate-200 bg-white p-6">
               <div className="font-semibold">{c.t}</div>
@@ -246,58 +348,175 @@ export default function RecursalPrevLanding() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
-      {/* PLANOS */}
-      <section id="planos" className="w-full px-4 md:px-8 py-16">
-        <h2 className="text-2xl md:text-3xl font-semibold">Planos RecursalPrev</h2>
-        <p className="text-sm text-slate-500 mt-1">
-          Condições especiais de early access — com revisão humana e suporte incluso.
-        </p>
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {planos.map((p) => (
-            <div
-              key={p.nome}
-              className="rounded-2xl border border-slate-200 bg-white p-6 flex flex-col"
-            >
-              <div className="flex-1">
-                <div className="text-lg font-semibold">{p.nome}</div>
-                <div className="mt-2 text-2xl font-bold">{p.preco}</div>
-                <div className="text-slate-500 text-sm">{p.sub}</div>
-                <div className="mt-2 text-slate-600 text-sm">{p.extras}</div>
-                <ul className="mt-4 grid gap-2 text-sm text-slate-700">
-                  {p.features.map((f) => (
-                    <li key={f}>• {f}</li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setForm({ ...form, plano: p.nome });
-                  scrollToId("lead");
-                }}
-                className="mt-6 h-11 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95"
-              >
-                Selecionar
-              </button>
-            </div>
-          ))}
+      <section id="beneficios" className="w-full px-6 md:px-10 py-16 bg-white">
+        <div className="max-w-6xl mx-auto text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-semibold mb-2">Benefícios da RecursalPrev</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto">
+            Cada recurso produzido segue um fluxo jurídico estruturado, que combina metodologia, 
+            controle de qualidade e suporte contínuo ao escritório parceiro.
+          </p>
+        </div>
+
+        <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Benefício 1 */}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left shadow-sm">
+            <div className="text-sky-600 text-3xl mb-3">⚖️</div>
+            <h3 className="font-semibold text-lg text-slate-800">Rigor técnico e revisão jurídica</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              Todas as peças passam por dupla revisão jurídica, garantindo consistência argumentativa, 
+              adequação à jurisprudência e segurança na entrega.
+            </p>
+          </div>
+
+          {/* Benefício 2 */}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left shadow-sm">
+            <div className="text-sky-600 text-3xl mb-3">📈</div>
+            <h3 className="font-semibold text-lg text-slate-800">Previsibilidade operacional</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              Prazos e volumes definidos por plano. Seu escritório sabe exatamente quando e 
+              como receberá cada recurso — sem surpresas.
+            </p>
+          </div>
+
+          {/* Benefício 3 */}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left shadow-sm">
+            <div className="text-sky-600 text-3xl mb-3">🕒</div>
+            <h3 className="font-semibold text-lg text-slate-800">Economia de tempo</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              O escritório foca na estratégia e no atendimento, enquanto a RecursalPrev 
+              cuida da produção técnica e das revisões detalhadas.
+            </p>
+          </div>
+
+          {/* Benefício 4 */}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left shadow-sm">
+            <div className="text-sky-600 text-3xl mb-3">🤝</div>
+            <h3 className="font-semibold text-lg text-slate-800">Parceria e suporte contínuo</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              Atendimento direto e reuniões mensais (planos Pro e Premium) para alinhar 
+              padrões, revisar resultados e aprimorar o desempenho conjunto.
+            </p>
+          </div>
+
+          {/* Benefício 5 */}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left shadow-sm">
+            <div className="text-sky-600 text-3xl mb-3">🧩</div>
+            <h3 className="font-semibold text-lg text-slate-800">Padronização e identidade jurídica</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              Cada recurso segue o estilo, linguagem e identidade do escritório, 
+              garantindo coesão e fortalecimento da marca profissional.
+            </p>
+          </div>
+
+          {/* Benefício 6 */}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-left shadow-sm">
+            <div className="text-sky-600 text-3xl mb-3">🔒</div>
+            <h3 className="font-semibold text-lg text-slate-800">Confidencialidade e segurança</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              Todo o fluxo é protegido por canais seguros e controle interno, 
+              assegurando a privacidade das informações e dos clientes.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* FORMULÁRIO */}
+
+      {/* PLANOS */}
+      <section id="planos" className="w-full px-4 md:px-8 py-16">
+        <h2 className="text-2xl md:text-3xl font-semibold text-center">Planos RecursalPrev</h2>
+        <p className="text-sm text-slate-500 mt-1 text-center">
+          Planos elaborados para atender suas necessidades.
+        </p>
+
+        {/* GRID: 4 cards na mesma linha, centralizados e responsivos */}
+        <div className="mt-8 flex flex-wrap justify-center items-stretch gap-6">
+          {planos.map((p) => {
+            // paleta por plano
+            const palette = {
+              Avulso: { border: "border-slate-200", price: "text-slate-800", btn: "bg-slate-900" },
+              Lite: { border: "border-sky-300", price: "text-sky-700", btn: "bg-sky-600" },
+              Pro: { border: "border-slate-900", price: "text-slate-900", btn: "bg-slate-900" }, // destaque
+              Premium: { border: "border-amber-500", price: "text-amber-600", btn: "bg-amber-500" },
+            };
+            const colors = palette[p.nome] || palette.Avulso;
+            const isPro = p.nome === "Pro";
+
+            return (
+              <div
+                key={p.nome}
+                className={[
+                  "relative w-full sm:w-[48%] md:w-[45%] lg:w-[22%] xl:w-[20%]",
+                  "rounded-2xl border bg-white p-6 flex flex-col transition-transform",
+                  colors.border,
+                  isPro ? "shadow-xl scale-[1.03]" : "",
+                ].join(" ")}
+              >
+                {/* selo somente no PRO */}
+                {isPro && (
+                  <span className="absolute -top-3 left-4 bg-slate-900 text-white text-[10px] tracking-wide px-2 py-1 rounded-md">
+                    MAIS POPULAR
+                  </span>
+                )}
+
+                <div className="flex-1">
+                  <div className="text-lg font-semibold">{p.nome}</div>
+
+                  {/* Preço + período (elevado) */}
+                  <div className={["mt-2 font-bold flex items-start", colors.price].join(" ")}>
+                    <span className="text-3xl md:text-4xl">{p.preco}</span>
+                    {p.nome !== "Avulso" && (
+                      <span className="align-super text-xs md:text-sm text-slate-500 ml-1">
+                        {p.sub?.includes("mês") ? "/mês" : p.sub?.includes("ano") ? "/ano" : `/${p.sub?.replace("por ", "") || "mês"}`}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Linha do subtítulo apenas no Avulso */}
+                  {p.nome === "Avulso" && (
+                    <div className="text-slate-500 text-sm">{p.sub}</div>
+                  )}
+
+                  {p.extras && <div className="mt-2 text-slate-600 text-sm">{p.extras}</div>}
+                  <ul className="mt-4 grid gap-2 text-sm text-slate-700">
+                    {p.features.map((f) => (
+                      <li key={f}>• {f}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setForm({ ...form, plano: p.nome });
+                    scrollToId("lead");
+                  }}
+                  className={[
+                    "mt-6 h-11 rounded-xl text-white font-medium hover:opacity-95",
+                    colors.btn,
+                  ].join(" ")}
+                >
+                  Selecionar
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* FORMULÁRIO (proposta) */}
       <section id="lead" className="w-full px-4 md:px-8 py-16">
         <div className="grid md:grid-cols-2 gap-10 items-start">
           <div>
-            <h2 className="text-2xl md:text-3xl font-semibold">Entre na lista de teste</h2>
+            <h2 className="text-2xl md:text-3xl font-semibold">Solicite uma proposta</h2>
             <p className="mt-3 text-slate-600">
-              Preencha para receber o convite e condições de lançamento.
+              Envie seus dados e retornamos em até 1 dia útil com condições para o seu volume.
             </p>
             <ul className="mt-6 grid gap-2 text-slate-700 text-sm">
-              <li>• Onboarding prioritário</li>
-              <li>• 30 dias para validação</li>
-              <li>• Suporte direto com o time</li>
+              <li>• Proposta em até 1 dia útil</li>
+              <li>• Onboarding assistido</li>
+              <li>• Suporte com especialista</li>
             </ul>
           </div>
 
@@ -308,7 +527,7 @@ export default function RecursalPrevLanding() {
           >
             {status.ok && (
               <div className="mb-4 rounded-xl bg-green-50 border border-green-200 p-3 text-sm text-green-800">
-                Obrigado! Recebemos seus dados.
+                Obrigado! Recebemos sua solicitação. Em breve entraremos em contato.
               </div>
             )}
             {status.error && (
@@ -378,7 +597,7 @@ export default function RecursalPrevLanding() {
                 disabled={loading}
                 className="h-11 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95 disabled:opacity-60"
               >
-                {loading ? "Enviando…" : "Quero receber o convite"}
+                {loading ? "Enviando…" : "Enviar solicitação"}
               </button>
             </div>
           </form>
@@ -400,4 +619,3 @@ export default function RecursalPrevLanding() {
     </div>
   );
 }
-
