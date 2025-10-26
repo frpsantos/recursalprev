@@ -44,20 +44,14 @@ export default function RecursalPrevLanding() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
-      {/* HEADER */}
+      {/* HEADER (full width com padding dinâmico) */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+        <div className="w-full px-[5vw] sm:px-[6vw] lg:px-[8vw] py-3 flex items-center justify-between">
           <button onClick={() => scrollToId("top")} className="flex items-center gap-2" aria-label="Ir para o topo">
-           
             <div className="flex items-center gap-2">
-              <img
-                src="/LogoPrincipal.png"
-                alt="RecursalPrev"
-                className="h-8 w-auto"
-              />
+              <img src="/LogoPrincipal.png" alt="RecursalPrev" className="h-8 w-auto" />
               <span className="font-semibold text-slate-800">RecursalPrev</span>
             </div>
-
           </button>
 
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -78,12 +72,18 @@ export default function RecursalPrevLanding() {
             Solicitar proposta
           </button>
 
-          <button className="md:hidden p-2 rounded-lg border border-slate-300" onClick={() => setMobileOpen((v) => !v)} aria-label="Abrir menu" aria-expanded={mobileOpen}>
+          <button
+            className="md:hidden p-2 rounded-lg border border-slate-300"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Abrir menu"
+            aria-expanded={mobileOpen}
+          >
             ☰
           </button>
         </div>
 
-        <div className={["md:hidden px-4 pb-3 transition-all duration-200", mobileOpen ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"].join(" ")}>
+        {/* Menu Mobile (full width + padding dinâmico) */}
+        <div className={["md:hidden px-[5vw] pb-3 transition-all duration-200", mobileOpen ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"].join(" ")}>
           <div className="rounded-2xl border border-slate-200 bg-white p-3 grid gap-1">
             {[
               ["Quem somos", "quem-somos"],
@@ -103,18 +103,25 @@ export default function RecursalPrevLanding() {
         </div>
       </header>
 
-      {/* HERO */}
-
-      <section id="top" className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-12 sm:pb-16 text-center"> 
+      {/* HERO (full width com padding dinâmico) */}
+      <section
+        id="top"
+        className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] pt-20 sm:pt-24 pb-12 sm:pb-16 text-center"
+      >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium bg-slate-100 text-slate-700">
           {/* Operando com revisão jurídica especializada */}
         </div>
 
         <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
-          <ReactTyped strings={["Recursos previdenciários padronizados e com qualidade"]} typeSpeed={60} backSpeed={10} showCursor />
+          <ReactTyped
+            strings={["Recursos previdenciários padronizados e com qualidade"]}
+            typeSpeed={60}
+            backSpeed={10}
+            showCursor
+          />
         </h1>
 
-        <p className="mt-4 text-slate-600 text-base sm:text-lg max-w-2xl mx-auto">
+        <p className="mt-4 text-slate-600 text-base sm:text-lg max-w-[70ch] mx-auto">
           Atendemos escritórios e advogados que desejam escalar a elaboração de recursos previdenciários com padronização, qualidade, previsibilidade operacional, redução de custos operacionais e aumento de receita.
         </p>
 
@@ -128,9 +135,9 @@ export default function RecursalPrevLanding() {
         </div>
       </section>
 
-      {/* QUEM SOMOS */}
-      <section id="quem-somos" className="w-full">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-16 bg-white">
+      {/* QUEM SOMOS (full width + padding dinâmico) */}
+      <section id="quem-somos" className="w-full bg-white">
+        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-semibold mb-8 sm:mb-10 text-slate-900">Quem Somos</h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-[320px,1fr] gap-8 sm:gap-10 items-start">
@@ -165,10 +172,10 @@ export default function RecursalPrevLanding() {
 
       {/* COMO FUNCIONA */}
       <section id="como-funciona" className="w-full bg-slate-50">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <div className="text-center mb-10 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-2">Como a RecursalPrev funciona</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base">
+            <p className="text-slate-600 max-w-[70ch] mx-auto text-sm sm:text-base">
               Etapas claras, revisão técnica e entregas dentro do prazo — do envio ao recurso final, você acompanha tudo com transparência.
             </p>
           </div>
@@ -196,10 +203,10 @@ export default function RecursalPrevLanding() {
 
       {/* BENEFÍCIOS */}
       <section id="beneficios" className="w-full bg-white">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <div className="text-center mb-10 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-2">Benefícios da RecursalPrev</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base">
+            <p className="text-slate-600 max-w-[70ch] mx-auto text-sm sm:text-base">
               Cada recurso produzido segue um fluxo jurídico estruturado, que combina metodologia, controle de qualidade e suporte contínuo ao escritório parceiro.
             </p>
           </div>
@@ -225,7 +232,7 @@ export default function RecursalPrevLanding() {
 
       {/* PLANOS */}
       <section id="planos" className="w-full">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-semibold text-center">Planos RecursalPrev</h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 text-center">Planos elaborados para atender suas necessidades.</p>
 
@@ -289,13 +296,13 @@ export default function RecursalPrevLanding() {
 
       {/* FORMULÁRIO */}
       <section id="lead" className="w-full">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-start">
             <div>
               <h2 className="text-2xl sm:text-3xl font-semibold">Solicite uma proposta</h2>
               <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos em até 1 dia útil com condições para o seu volume.</p>
               <ul className="mt-6 grid gap-2 text-slate-700 text-sm">
-                <li>• Proposta em até 1 dia útil</li>
+                <li>• Proposta em até 5 dia útil</li>
                 <li>• Onboarding assistido</li>
                 <li>• Suporte com especialista</li>
               </ul>
@@ -340,9 +347,9 @@ export default function RecursalPrevLanding() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* FOOTER (full width + padding dinâmico) */}
       <footer id="contato" className="border-t border-slate-200">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center">
+        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center">
           <div>
             <div className="font-semibold">RecursalPrev</div>
             <p className="text-slate-600 text-sm mt-1">Recursos previdenciários para escritórios.</p>
