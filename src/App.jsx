@@ -1,11 +1,34 @@
 import React, { useState } from "react";
 import { ReactTyped } from "react-typed";
 
+// Alerta
+function Alert({ type = "success", children }) {
+  const styles =
+    type === "success"
+      ? "bg-green-50 border-green-200 text-green-800"
+      : "bg-red-50 border-red-200 text-red-800";
+  const icon = type === "success" ? "✅" : "⚠️";
+
+  return (
+    <div
+      className={`mb-4 rounded-xl border p-3 text-sm flex items-start gap-2 ${styles}`}
+      role={type === "success" ? "status" : "alert"}
+      aria-live="polite"
+    >
+      <span className="text-base leading-none">{icon}</span>
+      <div>{children}</div>
+    </div>
+  );
+}
+
 export default function RecursalPrevLanding() {
   const FORMSPREE_ENDPOINT = "";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({ ok: false, error: "" });
+
+  // ✅ use formStatus para evitar conflito com window.status
+  const [formStatus, setFormStatus] = useState({ ok: false, error: "" });
+
   const [form, setForm] = useState({
     nome: "",
     email: "",
@@ -28,15 +51,34 @@ export default function RecursalPrevLanding() {
     setMobileOpen(false);
   }
 
+  // ✅ handleSubmit real chamando a API da Vercel
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+    setFormStatus({ ok: false, error: "" }); // zera estado anterior
+
     try {
-      await new Promise((r) => setTimeout(r, 700));
-      setStatus({ ok: true, error: "" });
-      setForm({ nome: "", email: "", whatsapp: "", escritorio: "", volume: "", plano: "", consent: false });
-    } catch {
-      setStatus({ ok: false, error: "Não foi possível enviar." });
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) throw new Error("Falha no envio");
+
+      setFormStatus({ ok: true, error: "" });
+      setForm({
+        nome: "",
+        email: "",
+        whatsapp: "",
+        escritorio: "",
+        volume: "",
+        plano: "",
+        consent: false,
+      });
+    } catch (err) {
+      console.error(err);
+      setFormStatus({ ok: false, error: "Não foi possível enviar o e-mail. Tente novamente." });
     } finally {
       setLoading(false);
     }
@@ -82,7 +124,7 @@ export default function RecursalPrevLanding() {
           </button>
         </div>
 
-        {/* Menu Mobile (full width + padding dinâmico) */}
+        {/* Menu Mobile */}
         <div className={["md:hidden px-[5vw] pb-3 transition-all duration-200", mobileOpen ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"].join(" ")}>
           <div className="rounded-2xl border border-slate-200 bg-white p-3 grid gap-1">
             {[
@@ -103,7 +145,7 @@ export default function RecursalPrevLanding() {
         </div>
       </header>
 
-      {/* HERO (full width com padding dinâmico) */}
+      {/* HERO */}
       <section
         id="top"
         className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] pt-20 sm:pt-24 pb-12 sm:pb-16 text-center"
@@ -135,7 +177,7 @@ export default function RecursalPrevLanding() {
         </div>
       </section>
 
-      {/* QUEM SOMOS (full width + padding dinâmico) */}
+      {/* QUEM SOMOS */}
       <section id="quem-somos" className="w-full bg-white">
         <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-semibold mb-8 sm:mb-10 text-slate-900">Quem Somos</h2>
@@ -309,8 +351,18 @@ export default function RecursalPrevLanding() {
             </div>
 
             <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 p-4 sm:p-6 bg-white shadow-sm" noValidate>
-              {status.ok && <div className="mb-4 rounded-xl bg-green-50 border border-green-200 p-3 text-sm text-green-800">Obrigado! Recebemos sua solicitação. Em breve entraremos em contato.</div>}
-              {status.error && <div className="mb-4 rounded-xl bg-red-50 border border-red-200 p-3 text-sm text-red-800">{status.error}</div>}
+              {/* Feedback de envio */}
+              {formStatus.ok && (
+                <Alert type="success">
+                  <strong>Enviado!</strong> Recebemos sua solicitação. Em breve entraremos em contato.
+                </Alert>
+              )}
+
+              {formStatus.error && (
+                <Alert type="error">
+                  {formStatus.error}
+                </Alert>
+              )}
 
               <div className="grid gap-4">
                 <div className="grid gap-1">
@@ -338,7 +390,17 @@ export default function RecursalPrevLanding() {
                   <span>Concordo com o <a href="#contato" className="underline">tratamento de dados</a> para contato e demonstração (LGPD).</span>
                 </label>
 
-                <button type="submit" disabled={loading} className="h-11 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95 disabled:opacity-60">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="h-11 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 px-5"
+                >
+                  {loading && (
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"></path>
+                    </svg>
+                  )}
                   {loading ? "Enviando…" : "Enviar solicitação"}
                 </button>
               </div>
@@ -347,7 +409,7 @@ export default function RecursalPrevLanding() {
         </div>
       </section>
 
-      {/* FOOTER (full width + padding dinâmico) */}
+      {/* FOOTER */}
       <footer id="contato" className="border-t border-slate-200">
         <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center">
           <div>
