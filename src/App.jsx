@@ -330,6 +330,37 @@ export default function RecursalPrevLanding() {
               </div>
             ))}
           </div>
+
+            {/* MOBILE: empilhado vertical com tamanhos ajustados */}
+            <div className="md:hidden">
+              <div className="max-w-sm mx-auto flex flex-col gap-10">
+                {[
+                  { title: "Envio do caso", text: "Você encaminha o processo e observações pelo canal seguro da RecursalPrev.", image: "/images/icons/1-envio.svg" },
+                  { title: "Análise inicial", text: "Revisamos documentos e definimos a melhor estratégia recursal.", image: "/images/icons/2-analise.svg" },
+                  { title: "Elaboração", text: "O recurso é redigido conforme precedentes e o padrão do seu escritório.", image: "/images/icons/3-elaboracao.svg" },
+                  { title: "Revisão técnica", text: "Dupla revisão jurídica assegura consistência argumentativa e qualidade técnica.", image: "/images/icons/4-revisao.svg" },
+                  { title: "Entrega e ajustes", text: "Entrega no prazo do plano, com histórico e possibilidade de ajustes.", image: "/images/icons/5-entrega.svg" },
+                  { title: "Acompanhamento", text: "Suporte contínuo e reuniões periódicas nos planos Pro e Premium.", image: "/images/icons/6-acompanhamento.svg" },
+                ].map((s) => (
+                  <div key={s.title} className="flex flex-col items-center text-center">
+                    {/* bolinha + ícone */}
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-sky-600 grid place-items-center shadow-md">
+                      <img
+                        src={s.image}
+                        alt={s.title}
+                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain object-center block"
+                      />
+                    </div>
+
+                    {/* título + texto (linhas curtas) */}
+                    <h4 className="mt-4 text-lg font-semibold text-slate-900">{s.title}</h4>
+                    <p className="mt-1 text-slate-600 text-base leading-relaxed max-w-[32ch]">
+                      {s.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
         </section>
 
 
