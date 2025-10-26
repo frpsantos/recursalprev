@@ -287,99 +287,43 @@ export default function RecursalPrevLanding() {
 
       {/* COMO FUNCIONA (âncora simples) */}
 
-        <section id="como-funciona" className="w-full px-6 md:px-10 py-16 bg-slate-50">
-          <div className="max-w-6xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-semibold mb-2">Como a RecursalPrev funciona</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              Nosso processo foi desenvolvido para garantir qualidade técnica, previsibilidade e transparência
-              em cada etapa da produção recursal.
-            </p>
-          </div>
 
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start justify-between gap-8 md:gap-4">
-            {[
-              { title: "Envio do caso", text: "Você encaminha o processo e observações pelo canal seguro da RecursalPrev.", image: "/images/icons/1-envio.png" },
-              { title: "Análise inicial", text: "Nossa equipe revisa os documentos e define a estratégia recursal mais adequada.", image: "/images/icons/2-analise.png" },
-              { title: "Elaboração", text: "O recurso é redigido conforme jurisprudência atual e o padrão do seu escritório.", image: "/images/icons/3-elaboracao.png" },
-              { title: "Revisão técnica", text: "Dupla revisão jurídica assegura consistência argumentativa e qualidade técnica.", image: "/images/icons/4-revisao.png" },
-              { title: "Entrega e ajustes", text: "O recurso é entregue dentro do prazo, com histórico e possibilidade de ajustes.", image: "/images/icons/5-entrega.png" },
-              { title: "Acompanhamento", text: "Suporte contínuo e reuniões periódicas nos planos Pro e Premium.", image: "/images/icons/6-acompanhamento.png" },
-            ].map((step, i, arr) => (
-              <div key={step.title} className="flex-1 flex flex-col items-center text-center relative">
-                {/* Linha de conexão entre os círculos */}
-                {i < arr.length - 1 && (
-                  <div className="hidden md:block absolute top-12 right-[-8%] w-[16%] h-[2px] bg-slate-300 z-0"></div>
-                )}
+<section id="como-funciona" className="w-full px-6 md:px-10 py-16 bg-slate-50">
+  <div className="max-w-6xl mx-auto text-center mb-12">
+    <h2 className="text-3xl md:text-4xl font-semibold mb-2">Como a RecursalPrev funciona</h2>
+    <p className="text-slate-600 max-w-2xl mx-auto">
+      Etapas claras, revisão técnica e entregas dentro do prazo — do envio ao recurso final, você acompanha tudo com transparência.
+    </p>
+  </div>
 
-                {/* Ícone dentro da bolinha */}
+  {/* mobile: 1 col | desktop: 6 cols */}
+  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-8 md:gap-6">
+    {[
+      { title: "Envio do caso", text: "Você encaminha o processo e observações pelo canal seguro da RecursalPrev.", image: "/images/icons/1-envio.svg" },
+      { title: "Análise inicial", text: "Revisamos documentos e definimos a melhor estratégia recursal.", image: "/images/icons/2-analise.svg" },
+      { title: "Elaboração", text: "O recurso é redigido conforme precedentes e o padrão do seu escritório.", image: "/images/icons/3-elaboracao.svg" },
+      { title: "Revisão técnica", text: "Dupla revisão jurídica assegura consistência argumentativa e qualidade técnica.", image: "/images/icons/4-revisao.svg" },
+      { title: "Entrega e ajustes", text: "Entrega no prazo do plano, com histórico e possibilidade de ajustes.", image: "/images/icons/5-entrega.svg" },
+      { title: "Acompanhamento", text: "Suporte contínuo e reuniões periódicas nos planos Pro e Premium.", image: "/images/icons/6-acompanhamento.svg" },
+    ].map((step) => (
+      <div key={step.title} className="flex flex-col items-center text-center">
+        <div className="w-20 h-20 md:w-20 md:h-20 rounded-full bg-sky-600 grid place-items-center shadow-md">
+          <img src={step.image} alt={step.title} className="w-10 h-10 object-contain block" />
+        </div>
+        <h3 className="mt-3 text-base md:text-sm font-semibold text-slate-900">{step.title}</h3>
+        <p className="mt-1 text-slate-600 text-base md:text-sm leading-relaxed max-w-[34ch]">
+          {step.text}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>
 
-                <div className="w-24 h-24 rounded-full bg-sky-600 grid place-items-center shadow-md">
-                  <img
-                    src={step.image}
-                    alt={step.title}
-                    className="w-20 h-20 object-contain object-center block"
-                  />
-                </div>
-
-
-                {/* Texto */}
-                <div className="mt-4 max-w-[220px]">
-                  <h3 className="font-semibold text-lg text-slate-800">{step.title}</h3>
-                  <p className="text-sm text-slate-600 mt-1">{step.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-            {/* MOBILE: empilhado vertical com tamanhos ajustados */}
-            <div className="md:hidden">
-              <div className="max-w-sm mx-auto flex flex-col gap-10">
-                {[
-                  { title: "Envio do caso", text: "Você encaminha o processo e observações pelo canal seguro da RecursalPrev.", image: "/images/icons/1-envio.svg" },
-                  { title: "Análise inicial", text: "Revisamos documentos e definimos a melhor estratégia recursal.", image: "/images/icons/2-analise.svg" },
-                  { title: "Elaboração", text: "O recurso é redigido conforme precedentes e o padrão do seu escritório.", image: "/images/icons/3-elaboracao.svg" },
-                  { title: "Revisão técnica", text: "Dupla revisão jurídica assegura consistência argumentativa e qualidade técnica.", image: "/images/icons/4-revisao.svg" },
-                  { title: "Entrega e ajustes", text: "Entrega no prazo do plano, com histórico e possibilidade de ajustes.", image: "/images/icons/5-entrega.svg" },
-                  { title: "Acompanhamento", text: "Suporte contínuo e reuniões periódicas nos planos Pro e Premium.", image: "/images/icons/6-acompanhamento.svg" },
-                ].map((s) => (
-                  <div key={s.title} className="flex flex-col items-center text-center">
-                    {/* bolinha + ícone */}
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-sky-600 grid place-items-center shadow-md">
-                      <img
-                        src={s.image}
-                        alt={s.title}
-                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain object-center block"
-                      />
-                    </div>
-
-                    {/* título + texto (linhas curtas) */}
-                    <h4 className="mt-4 text-lg font-semibold text-slate-900">{s.title}</h4>
-                    <p className="mt-1 text-slate-600 text-base leading-relaxed max-w-[32ch]">
-                      {s.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-        </section>
 
 
 
       {/* BENEFÍCIOS */}
-      {/* <section id="beneficios" className="w-full px-4 md:px-8 py-12">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { t: "Velocidade com qualidade", d: "Padronização de escrita com rigor técnico." },
-            { t: "Metodologia recursal", d: "Processo consolidado com revisão jurídica especializada." },
-            { t: "Conformidade", d: "Privacidade por padrão e auditoria interna de conteúdo." },
-          ].map((c) => (
-            <div key={c.t} className="rounded-2xl border border-slate-200 bg-white p-6">
-              <div className="font-semibold">{c.t}</div>
-              <p className="text-slate-600 mt-2 text-sm">{c.d}</p>
-            </div>
-          ))}
-        </div>
-      </section> */}
+   
 
       <section id="beneficios" className="w-full px-6 md:px-10 py-16 bg-white">
         <div className="max-w-6xl mx-auto text-center mb-12">
@@ -452,6 +396,7 @@ export default function RecursalPrevLanding() {
           </div>
         </div>
       </section>
+
 
 
       {/* PLANOS */}
