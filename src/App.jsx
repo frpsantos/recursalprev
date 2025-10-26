@@ -17,10 +17,10 @@ export default function RecursalPrevLanding() {
   });
 
   const planos = [
-    { nome: "Avulso", preco: "R$ 599", sub: "por recurso", extras: "Uso sob demanda", features: ["1 recurso por vez", "Entrega em até 72h úteis"] },
-    { nome: "Lite", preco: "R$ 1.999", sub: "por mês", extras: "Atende demandas sazonais", features: ["5 recursos por mês","Carência de 1 mês","Suporte via chat","R$ 399 por recurso adicional"] },
+    { nome: "Avulso", preco: "R$ 599", sub: "por recurso", extras: "Uso sob demanda", features: ["1 recurso por vez", "Entrega em até 7 dias úteis"] },
+    { nome: "Lite", preco: "R$ 1.999", sub: "por mês", extras: "Atende demandas sazonais", features: ["5 recursos por mês","Carência de 1 mês","Suporte via chat","R$ 499 por recurso adicional"] },
     { nome: "Pro", preco: "R$ 7.999", sub: "por mês", extras: "Ideal para demandas de médio prazo", features: ["40 recursos por mês","Bônus de 3 recursos no mês","Carência de 6 meses","Suporte via chat","30 minutos/mês em reuniões online","R$ 299 por recurso adicional"] },
-    { nome: "Premium", preco: "R$ 9.999", sub: "por mês", extras: "Ótimo para escalar e padronizar recursos", features: ["60 recursos por mês","Bônus de 5 recursos no mês","Carência mínima de 12 meses","Suporte jurídico via chat em três processos","60 minutos/mês em reuniões online","R$ 199 por recurso adicional"] },
+    { nome: "Premium", preco: "R$ 9.999", sub: "por mês", extras: "Ótimo para escalar e padronizar recursos", features: ["60 recursos por mês","Bônus de 5 recursos no mês","Carência mínima de 12 meses","Suporte jurídico via chat","60 minutos/mês em reuniões online","R$ 199 por recurso adicional"] },
   ];
 
   function scrollToId(id) {
@@ -48,8 +48,16 @@ export default function RecursalPrevLanding() {
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <button onClick={() => scrollToId("top")} className="flex items-center gap-2" aria-label="Ir para o topo">
-            <div className="h-8 w-8 rounded-xl bg-slate-900 text-white grid place-items-center font-bold">R</div>
-            <span className="font-semibold">RecursalPrev</span>
+           
+            <div className="flex items-center gap-2">
+              <img
+                src="/LogoPrincipal.png"
+                alt="RecursalPrev"
+                className="h-8 w-auto"
+              />
+              <span className="font-semibold text-slate-800">RecursalPrev</span>
+            </div>
+
           </button>
 
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -107,7 +115,7 @@ export default function RecursalPrevLanding() {
         </h1>
 
         <p className="mt-4 text-slate-600 text-base sm:text-lg max-w-2xl mx-auto">
-          Atendemos escritórios que desejam escalar a elaboração de recursos previdenciários com padronização, qualidade e previsibilidade operacional.
+          Atendemos escritórios e advogados que desejam escalar a elaboração de recursos previdenciários com padronização, qualidade, previsibilidade operacional, redução de custos operacionais e aumento de receita.
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -169,7 +177,7 @@ export default function RecursalPrevLanding() {
             {[
               { title: "Envio do caso", text: "Você encaminha o processo e observações pelo canal seguro da RecursalPrev.", emoji: "📨" },
               { title: "Análise inicial", text: "Revisamos documentos e definimos a melhor estratégia recursal.", emoji: "🔍" },
-              { title: "Elaboração", text: "O recurso é redigido conforme precedentes e o padrão do seu escritório.", emoji: "✍️" },
+              { title: "Elaboração", text: "O recurso é redigido com base na expertise técnica-jurídica de Dr Haruanã, acrescida de uma base de precedentes atualizados, sem perder a identidade do seu escritório.", emoji: "✍️" },
               { title: "Revisão técnica", text: "Dupla revisão jurídica assegura consistência argumentativa e qualidade técnica.", emoji: "📝" },
               { title: "Entrega e ajustes", text: "Entrega no prazo do plano, com histórico e possibilidade de ajustes.", emoji: "✅" },
               { title: "Acompanhamento", text: "Suporte contínuo e reuniões periódicas nos planos Pro e Premium.", emoji: "🤝" },
@@ -200,7 +208,7 @@ export default function RecursalPrevLanding() {
             {[
               ["⚖️","Rigor técnico e revisão jurídica","Todas as peças passam por dupla revisão jurídica, garantindo consistência argumentativa, adequação à jurisprudência e segurança na entrega."],
               ["📈","Previsibilidade operacional","Prazos e volumes definidos por plano. Seu escritório sabe exatamente quando e como receberá cada recurso — sem surpresas."],
-              ["🕒","Economia de tempo","O escritório foca na estratégia e no atendimento, enquanto a RecursalPrev cuida da produção técnica e das revisões detalhadas."],
+              ["🕒","Economia de tempo","O escritório ou advogado foca no aumento da carteira de clientes, estratégia e atendimento, enquanto a RecursalPrev cuida dos prazos, com a produção técnica e revisões detalhadas dos recursos."],
               ["🤝","Parceria e suporte contínuo","Atendimento direto e reuniões mensais (planos Pro e Premium) para alinhar padrões, revisar resultados e aprimorar o desempenho conjunto."],
               ["🧩","Padronização e identidade jurídica","Cada recurso segue o estilo, linguagem e identidade do escritório, garantindo coesão e fortalecimento da marca profissional."],
               ["🔒","Confidencialidade e segurança","Todo o fluxo é protegido por canais seguros e controle interno, assegurando a privacidade das informações e dos clientes."],
