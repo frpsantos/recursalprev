@@ -288,36 +288,49 @@ export default function RecursalPrevLanding() {
       {/* COMO FUNCIONA (âncora simples) */}
 
 
-<section id="como-funciona" className="w-full px-6 md:px-10 py-16 bg-slate-50">
-  <div className="max-w-6xl mx-auto text-center mb-12">
-    <h2 className="text-3xl md:text-4xl font-semibold mb-2">Como a RecursalPrev funciona</h2>
-    <p className="text-slate-600 max-w-2xl mx-auto">
-      Etapas claras, revisão técnica e entregas dentro do prazo — do envio ao recurso final, você acompanha tudo com transparência.
-    </p>
-  </div>
+        <section
+          id="como-funciona"
+          className="w-full px-6 md:px-10 py-16 bg-slate-50"
+          aria-labelledby="como-funciona-title"
+        >
+          <div className="max-w-6xl mx-auto text-center mb-12">
+            <h2
+              id="como-funciona-title"
+              className="text-3xl md:text-4xl font-semibold mb-2"
+            >
+              Como a RecursalPrev funciona
+            </h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Etapas claras, revisão técnica e entregas dentro do prazo — do envio ao
+              recurso final, você acompanha tudo com transparência.
+            </p>
+          </div>
 
-  {/* mobile: 1 col | desktop: 6 cols */}
-  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-8 md:gap-6">
-    {[
-      { title: "Envio do caso", text: "Você encaminha o processo e observações pelo canal seguro da RecursalPrev.", image: "/images/icons/1-envio.svg" },
-      { title: "Análise inicial", text: "Revisamos documentos e definimos a melhor estratégia recursal.", image: "/images/icons/2-analise.svg" },
-      { title: "Elaboração", text: "O recurso é redigido conforme precedentes e o padrão do seu escritório.", image: "/images/icons/3-elaboracao.svg" },
-      { title: "Revisão técnica", text: "Dupla revisão jurídica assegura consistência argumentativa e qualidade técnica.", image: "/images/icons/4-revisao.svg" },
-      { title: "Entrega e ajustes", text: "Entrega no prazo do plano, com histórico e possibilidade de ajustes.", image: "/images/icons/5-entrega.svg" },
-      { title: "Acompanhamento", text: "Suporte contínuo e reuniões periódicas nos planos Pro e Premium.", image: "/images/icons/6-acompanhamento.svg" },
-    ].map((step) => (
-      <div key={step.title} className="flex flex-col items-center text-center">
-        <div className="w-20 h-20 md:w-20 md:h-20 rounded-full bg-sky-600 grid place-items-center shadow-md">
-          <img src={step.image} alt={step.title} className="w-10 h-10 object-contain block" />
-        </div>
-        <h3 className="mt-3 text-base md:text-sm font-semibold text-slate-900">{step.title}</h3>
-        <p className="mt-1 text-slate-600 text-base md:text-sm leading-relaxed max-w-[34ch]">
-          {step.text}
-        </p>
-      </div>
-    ))}
-  </div>
-</section>
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-8 md:gap-6">
+            {[
+              { title: "Envio do caso", text: "Você encaminha o processo e observações pelo canal seguro da RecursalPrev.", emoji: "📨" },
+              { title: "Análise inicial", text: "Revisamos documentos e definimos a melhor estratégia recursal.", emoji: "🔍" },
+              { title: "Elaboração", text: "O recurso é redigido conforme precedentes e o padrão do seu escritório.", emoji: "✍️" },
+              { title: "Revisão técnica", text: "Dupla revisão jurídica assegura consistência argumentativa e qualidade técnica.", emoji: "📝" },
+              { title: "Entrega e ajustes", text: "Entrega no prazo do plano, com histórico e possibilidade de ajustes.", emoji: "✅" },
+              { title: "Acompanhamento", text: "Suporte contínuo e reuniões periódicas nos planos Pro e Premium.", emoji: "🤝" },
+            ].map((step) => (
+              <div key={step.title} className="flex flex-col items-center text-center">
+                {/* 🔵 bolinha com emoji */}
+                <div className="w-20 h-20 md:w-20 md:h-20 rounded-full bg-white border-2 border-sky-600 grid place-items-center shadow-md">
+                  <span className="text-3xl">{step.emoji}</span>
+                </div>
+
+                <h3 className="mt-3 text-base md:text-sm font-semibold text-slate-900">
+                  {step.title}
+                </h3>
+                <p className="mt-1 text-slate-600 text-base md:text-sm leading-relaxed max-w-[34ch]">
+                  {step.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
 
 
 
