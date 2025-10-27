@@ -198,7 +198,7 @@ export default function RecursalPrevLanding() {
               <p className="uppercase text-xs sm:text-sm text-slate-500 tracking-wide mb-3">Dr. Haruanã Cachorroski Cardoso</p>
 
               <p className="text-slate-700 mb-4">
-                Com quase <strong>20 anos de atuação</strong> em prática recursal, o Dr. Haruanã é reconhecido por sua ética e excelência técnica em sustentações orais e peças recursais. Também é idealizador do <strong>Canal “Advogado dos Advogados”</strong>, iniciativa que amplia a visibilidade e a autoridade de profissionais e escritórios por meio de conteúdo jurídico de alta qualidade.
+                Com quase <strong>20 anos de atuação</strong> em prática recursal, o Dr. Haruanã é reconhecido por sua ética e excelência técnica em sustentações orais e peças recursais.
               </p>
 
               <div className="text-sm text-slate-600 mt-4 space-y-1">
