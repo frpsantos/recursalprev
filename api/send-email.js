@@ -48,7 +48,7 @@ export default async function handler(req, res) {
 
     const info = await transporter.sendMail({
       from: `"RecursalPrev" <${process.env.ZOHO_USER}>`,
-      to: "contato@recursalprev.com.br",
+      to: "frp.santos@hotmail.com,haruanacardoso@gmail.com,fernando@autrapay.com.br",
       subject: `Novo lead - ${data.nome}`,
       html: `
         <h2>Nova solicitação de proposta</h2>
