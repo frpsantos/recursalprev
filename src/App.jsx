@@ -154,18 +154,52 @@ export default function RecursalPrevLanding() {
           </button>
         </div>
 
-        {/* Banner letreiro */}
-        {/* <div className="w-full overflow-hidden border-t border-slate-200 bg-slate-900 text-white">
+ 
+     
+        {/* Banner letreiro — sempre em uma linha (mobile safe) */}
+        <style>{`
+          @keyframes rp-marquee-line {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* move metade do trilho duplicado */
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .rp-marquee-line {
+              animation: none !important;
+              transform: none !important;
+            }
+          }
+        `}</style>
+
+        <div
+          className="
+            relative overflow-hidden border-t border-slate-200 bg-slate-900 text-white
+            [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]
+          "
+        >
+          {/* trilho duplicado */}
           <div
-            className="whitespace-nowrap py-2 text-xs sm:text-sm tracking-wide"
-            style={{ animation: "rp-marquee 40s linear infinite" }}
+            className="
+              rp-marquee-line flex w-[300%]
+              [animation:rp-marquee-line_30s_linear_infinite]
+            "
           >
-            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
-            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
-            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
-            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
+            {/* cópia 1 */}
+            <div className="flex items-left gap-12 w-1/2 shrink-0 py-2 text-xs sm:text-sm">
+              <span className="px-6">🚀 Preço especial de lançamento</span>
+              <span className="px-6">🔥 Black Friday</span>
+              <span className="px-6">🚀 Preço especial de lançamento</span>
+              <span className="px-6">🔥 Black Friday</span>
+              <span className="px-6">🚀 Preço especial de lançamento</span>
+              <span className="px-6">🔥 Black Friday</span>
+              <span className="px-6">🚀 Preço especial de lançamento</span>
+              <span className="px-6">🔥 Black Friday</span>
+        
+            </div>
           </div>
-        </div> */}
+        </div>
+
+
 
         {/* Menu Mobile */}
         <div className={["md:hidden px-[5vw] pb-3 transition-all duration-200", mobileOpen ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"].join(" ")}>
