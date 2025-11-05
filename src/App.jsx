@@ -155,7 +155,7 @@ export default function RecursalPrevLanding() {
         </div>
 
         {/* Banner letreiro */}
-        <div className="w-full overflow-hidden border-t border-slate-200 bg-slate-900 text-white">
+        {/* <div className="w-full overflow-hidden border-t border-slate-200 bg-slate-900 text-white">
           <div
             className="whitespace-nowrap py-2 text-xs sm:text-sm tracking-wide"
             style={{ animation: "rp-marquee 40s linear infinite" }}
@@ -165,7 +165,7 @@ export default function RecursalPrevLanding() {
             <span className="mx-6">Preço especial de lançamento + Black Friday</span>
             <span className="mx-6">Preço especial de lançamento + Black Friday</span>
           </div>
-        </div>
+        </div> */}
 
         {/* Menu Mobile */}
         <div className={["md:hidden px-[5vw] pb-3 transition-all duration-200", mobileOpen ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"].join(" ")}>
@@ -382,7 +382,7 @@ export default function RecursalPrevLanding() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-start">
             <div>
               <h2 className="text-2xl sm:text-3xl font-semibold">Solicite uma proposta</h2>
-              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos com as condições para o seu volume.</p>
+              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos com ascondições para o seu volume.</p>
               <ul className="mt-6 grid gap-2 text-slate-700 text-sm">
                 <li>• Proposta em até 5 dia útil</li>
                 <li>• Onboarding assistido</li>
