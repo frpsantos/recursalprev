@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { ReactTyped } from "react-typed";
 
 // Alerta
@@ -51,13 +51,23 @@ export default function RecursalPrevLanding() {
       .replace(/[-\s]+$/, "");
   }
 
+  // planos (Avulso Especial na 2ª posição)
   const planos = [
     { nome: "Avulso", preco: "R$ 599", sub: "por recurso", extras: "Uso sob demanda para peças simples", features: ["1 recurso por vez", "Entrega em até 7 dias úteis"] },
-    { nome: "Avulso Especial", preco: "R$ 1.599", sub: "por recurso", extras: "Recurso para Instâncias Superiores", features: ["1 recurso por vez", "Entrega em até 7 dias úteis", "Instâncias: TRU, TNU, STJ, STF."] },
-    { nome: "Lite", preco: "R$ 1.999", sub: "por mês", extras: "Atende demandas sazonais", features: ["5 recursos por mês","Carência de 1 mês","Suporte via chat","R$ 499 por recurso adicional"] },
-    { nome: "Pro", preco: "R$ 7.999", sub: "por mês", extras: "Ideal para demandas de médio prazo", features: ["40 recursos por mês","Bônus de 3 recursos no mês","Carência de 6 meses","Suporte via chat","20 minutos/mês em reuniões online","R$ 299 por recurso adicional"] },
-    { nome: "Premium", preco: "R$ 9.999", sub: "por mês", extras: "Ótimo para escalar e padronizar recursos", features: ["60 recursos por mês","Bônus de 5 recursos no mês","Carência mínima de 12 meses","Suporte via chat","40 minutos/mês em reuniões online","R$ 199 por recurso adicional"] },
+    { nome: "Avulso Especial", preco: "R$ 1.599", sub: "por recurso", extras: "Recurso para Instâncias Superiores", features: ["1 recurso por vez", "Entrega em até 7 dias úteis","Instâncias: TRU, TNU, STJ, STF." ] },
+    { nome: "Lite", preco: "R$ 1.999", sub: "mês", extras: "Atende demandas sazonais", features: ["5 recursos por mês","Carência de 1 mês","Suporte via chat","R$ 499 por recurso adicional"] },
+    { nome: "Pro", preco: "R$ 7.999", sub: "mês", extras: "Ideal para demandas de médio prazo", features: ["40 recursos por mês","Bônus de 3 recursos no mês","Carência de 6 meses","Suporte via chat","20 minutos/mês em reuniões online","R$ 299 por recurso adicional"] },
+    { nome: "Premium", preco: "R$ 9.999", sub: "mês", extras: "Ótimo para escalar e padronizar recursos", features: ["60 recursos por mês","Bônus de 5 recursos no mês","Carência mínima de 12 meses","Suporte via chat","40 minutos/mês em reuniões online","R$ 199 por recurso adicional"] },
   ];
+
+  // paleta por plano
+  const palette = {
+    Avulso: { border: "border-slate-200", price: "text-slate-800", btn: "bg-slate-900" },
+    "Avulso Especial": { border: "border-purple-400", price: "text-purple-700", btn: "bg-purple-600" },
+    Lite: { border: "border-sky-300", price: "text-sky-700", btn: "bg-sky-600" },
+    Pro: { border: "border-slate-900", price: "text-slate-900", btn: "bg-slate-900" },
+    Premium: { border: "border-amber-500", price: "text-amber-600", btn: "bg-amber-500" },
+  };
 
   function scrollToId(id) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -96,17 +106,8 @@ export default function RecursalPrevLanding() {
     }
   }
 
-  // paleta por plano (cores novas p/ Avulso Especial)
-  const palette = {
-    Avulso: { border: "border-slate-200", price: "text-slate-800", btn: "bg-slate-900" },
-    "Avulso Especial": { border: "border-purple-400", price: "text-purple-700", btn: "bg-purple-600" },
-    Lite: { border: "border-sky-300", price: "text-sky-700", btn: "bg-sky-600" },
-    Pro: { border: "border-slate-900", price: "text-slate-900", btn: "bg-slate-900" },
-    Premium: { border: "border-amber-500", price: "text-amber-600", btn: "bg-amber-500" },
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 overflow-x-hidden">
       {/* CSS do letreiro */}
       <style>{`
         @keyframes rp-marquee { 
@@ -156,7 +157,7 @@ export default function RecursalPrevLanding() {
         {/* Banner letreiro */}
         <div className="w-full overflow-hidden border-t border-slate-200 bg-slate-900 text-white">
           <div
-            className="whitespace-nowrap py-2 text-sm tracking-wide"
+            className="whitespace-nowrap py-2 text-xs sm:text-sm tracking-wide"
             style={{ animation: "rp-marquee 40s linear infinite" }}
           >
             <span className="mx-6">Preço especial de lançamento + Black Friday</span>
@@ -188,28 +189,25 @@ export default function RecursalPrevLanding() {
       </header>
 
       {/* HERO */}
-      <section
-        id="top"
-        className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] pt-20 sm:pt-24 pb-12 sm:pb-16 text-center"
-      >
-        <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
+      <section id="top" className="w-full px-4 sm:px-[8vw] lg:px-[10vw] pt-16 sm:pt-24 pb-10 sm:pb-16 text-center">
+        <h1 className="mt-2 text-2xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
           <ReactTyped
             strings={["Recursos previdenciários padronizados e com qualidade"]}
-            typeSpeed={60}
+            typeSpeed={50}
             backSpeed={10}
             showCursor
           />
         </h1>
 
-        <p className="mt-4 text-slate-600 text-base sm:text-lg max-w-[70ch] mx-auto">
+        <p className="mt-3 text-slate-600 text-sm sm:text-lg max-w-[70ch] mx-auto">
           Atendemos escritórios e advogados que desejam escalar a elaboração de recursos previdenciários com padronização, qualidade, previsibilidade operacional, redução de custos operacionais e aumento de receita.
         </p>
 
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <button onClick={() => scrollToId("lead")} className="px-5 py-3 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95">
+        <div className="mt-5 flex flex-wrap justify-center gap-3">
+          <button onClick={() => scrollToId("lead")} className="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95">
             Solicitar proposta
           </button>
-          <button onClick={() => scrollToId("planos")} className="px-5 py-3 rounded-xl border border-slate-300 font-medium hover:bg-slate-50">
+          <button onClick={() => scrollToId("planos")} className="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-300 font-medium hover:bg-slate-50">
             Ver planos
           </button>
         </div>
@@ -223,7 +221,7 @@ export default function RecursalPrevLanding() {
           <div className="grid grid-cols-1 lg:grid-cols-[320px,1fr] gap-8 sm:gap-10 items-start">
             <div className="justify-self-center lg:justify-self-start">
               <div className="w-[260px] sm:w-[280px] aspect-[7/8] rounded-2xl overflow-hidden shadow-lg bg-slate-100">
-                <img src="Haruana.png" alt="Dr. Haruanã Cachorroski Cardoso" className="w-full h-full object-cover object-top" />
+                <img src="/Haruana.png" alt="Dr. Haruanã Cachorroski Cardoso" className="w-full h-full object-cover object-top" />
               </div>
             </div>
 
@@ -238,14 +236,6 @@ export default function RecursalPrevLanding() {
               <p className="text-slate-700 mb-4">
                 Com quase <strong>20 anos de atuação</strong> em prática recursal, o Dr. Haruanã é reconhecido por sua ética e excelência técnica em sustentações orais e peças recursais.
               </p>
-
-              {/* <div className="text-sm text-slate-600 mt-4 space-y-1">
-                <a href="https://instagram.com/HaruanaCachorroski" target="_blank" rel="noreferrer" className="font-semibold text-slate-900 hover:underline">
-                  @HaruanaCachorroski
-                </a>
-                Telefone atualizado
-                <div>haruanacachorroski@gmail.com • (83) 98616-9783</div>
-              </div> */}
             </div>
           </div>
         </div>
@@ -313,12 +303,11 @@ export default function RecursalPrevLanding() {
 
       {/* PLANOS */}
       <section id="planos" className="w-full">
-        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
+        <div className="w-full px-4 sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-semibold text-center">Planos RecursalPrev</h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 text-center">Planos elaborados para atender suas necessidades.</p>
 
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-         
+          <div className="mt-8 grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 max-w-screen-xl mx-auto">
             {planos.map((p) => {
               const colors = palette[p.nome] || palette.Avulso;
               const isPro = p.nome === "Pro";
@@ -327,11 +316,12 @@ export default function RecursalPrevLanding() {
                 <div
                   key={p.nome}
                   className={[
-                    "relative rounded-2xl border bg-white p-6 flex flex-col",
+                    "relative rounded-2xl border bg-white p-4 sm:p-6 lg:p-7 flex flex-col",
                     "shadow-sm hover:shadow-md transition-shadow",
-                    "min-h-[340px]",
+                    "min-h-[280px] md:min-h-[340px]",
                     colors.border,
                     isPro ? "ring-1 ring-slate-900/10" : "",
+                    p.nome === "Avulso Especial" ? "lg:translate-y-[-4px]" : "",
                   ].join(" ")}
                 >
                   {isPro && (
@@ -342,18 +332,32 @@ export default function RecursalPrevLanding() {
 
                   <div className="flex-1">
                     <div className="text-lg font-semibold">{p.nome}</div>
-                      <div className={["mt-2 font-bold flex items-baseline flex-wrap", colors.price].join(" ")}>
-                      <span className="text-3xl md:text-4xl whitespace-nowrap">{p.preco}</span>
+
+                    {/* Preço: não quebrar “R$” */}
+                    <div className={["mt-2 font-bold flex items-baseline flex-wrap", colors.price].join(" ")}>
+                      {/* <span className="text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight tabular-nums sm:whitespace-nowrap whitespace-normal">
+                        {p.preco.replace(" ", "\u00A0")}
+                      </span> */}
+
+                      <span className="text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-tight tabular-nums sm:whitespace-nowrap whitespace-normal">
+                        {p.preco.replace(" ", "\u00A0")}
+                      </span>
+
+
+
                       {p.nome !== "Avulso" && p.nome !== "Avulso Especial" && (
-                        <span className="align-super text-xs md:text-sm text-slate-500 ml-1">
-                          {p.sub && (p.sub.includes("mês") ? "mês" : p.sub.includes("ano") ? "/ano" : `/${p.sub.replace("por ", "")}`)}
+                        <span className="align-super text-[11px] sm:text-xs md:text-sm text-slate-500 ml-1">
+                          {p.sub && (p.sub.includes("mês") ? "/mês" : p.sub.includes("ano") ? "/ano" : `/${p.sub.replace("por ", "")}`)}
                         </span>
                       )}
                     </div>
+
                     {(p.nome === "Avulso" || p.nome === "Avulso Especial") && (
-                      <div className="text-slate-500 text-sm">{p.sub}</div>
+                      <div className="text-slate-500 text-xs sm:text-sm">por recurso</div>
                     )}
+
                     {p.extras && <div className="mt-2 text-slate-600 text-sm">{p.extras}</div>}
+
                     <ul className="mt-4 grid gap-2 text-sm text-slate-700">
                       {p.features.map((f) => <li key={f}>• {f}</li>)}
                     </ul>
@@ -361,7 +365,7 @@ export default function RecursalPrevLanding() {
 
                   <button
                     onClick={(e) => { e.preventDefault(); setForm({ ...form, plano: p.nome }); scrollToId("lead"); }}
-                    className={["mt-6 h-11 rounded-xl text-white font-medium hover:opacity-95", colors.btn].join(" ")}
+                    className={["mt-6 h-11 rounded-xl text-white font-medium hover:opacity-95 w-full sm:w-auto", colors.btn].join(" ")}
                   >
                     Selecionar
                   </button>
@@ -374,13 +378,13 @@ export default function RecursalPrevLanding() {
 
       {/* FORMULÁRIO */}
       <section id="lead" className="w-full">
-        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
+        <div className="w-full px-4 sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-start">
             <div>
               <h2 className="text-2xl sm:text-3xl font-semibold">Solicite uma proposta</h2>
-              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos com condições para o seu volume.</p>
+              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos com as condições para o seu volume.</p>
               <ul className="mt-6 grid gap-2 text-slate-700 text-sm">
-                <li>• Proposta em até 5 dias úteis</li>
+                <li>• Proposta em até 5 dia útil</li>
                 <li>• Onboarding assistido</li>
                 <li>• Suporte com especialista</li>
               </ul>
@@ -444,69 +448,69 @@ export default function RecursalPrevLanding() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* FOOTER (contatos centralizados + copyright) */}
       <footer id="contato" className="border-t border-slate-200 bg-white">
-  <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-10 text-sm text-slate-700 text-center">
-    {/* Linha de contatos centralizada */}
-    <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 sm:gap-8 mb-6">
-      {/* CNPJ */}
-      <div className="flex items-center gap-2">
-        {/* Ícone documento */}
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
-          <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z"/>
-        </svg>
-        <span><strong>CNPJ:</strong> 63.391.044/0001-00</span>
-      </div>
+        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-10 text-sm text-slate-700 text-center">
+          {/* Linha de contatos centralizada */}
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-6 mb-6">
+            {/* CNPJ */}
+            <div className="flex items-center gap-2">
+              {/* Ícone documento */}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+                <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z"/>
+              </svg>
+              <span><strong>CNPJ:</strong> 63.391.044/0001-00</span>
+            </div>
 
-      {/* Telefone */}
-      <div className="flex items-center gap-2">
-        {/* Ícone telefone */}
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
-          <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z"/>
-        </svg>
-        <a href="tel:+5583986169783" className="hover:underline text-sky-700">
-          (83) 98616-9783
-        </a>
-      </div>
+            {/* Telefone */}
+            <div className="flex items-center gap-2">
+              {/* Ícone telefone */}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+                <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z"/>
+              </svg>
+              <a href="tel:+5583986169783" className="hover:underline text-sky-700">
+                (83) 98616-9783
+              </a>
+            </div>
 
-      {/* E-mail */}
-      <div className="flex items-center gap-2">
-        {/* Ícone envelope */}
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
-          <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/>
-        </svg>
-        <a href="mailto:contato@recursalprev.com.br" className="hover:underline text-sky-700">
-          contato@recursalprev.com.br
-        </a>
-      </div>
+            {/* E-mail */}
+            <div className="flex items-center gap-2">
+              {/* Ícone envelope */}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+                <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/>
+              </svg>
+              <a href="mailto:contato@recursalprev.com.br" className="hover:underline text-sky-700">
+                contato@recursalprev.com.br
+              </a>
+            </div>
 
-      {/* Instagram */}
-      <div className="flex items-center gap-2">
-        {/* Ícone Instagram */}
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
-          <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.5A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM17.5 6a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 17.5 6z"/>
-        </svg>
-        <a
-          href="https://instagram.com/HaruanaCachorroski"
-          target="_blank"
-          rel="noreferrer"
-          className="hover:underline text-sky-700"
-        >
-          @HaruanaCachorroski
-        </a>
-      </div>
-    </div>
+            {/* Instagram */}
+            <div className="flex items-center gap-2">
+              {/* Ícone Instagram */}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+                <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.5A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM17.5 6a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 17.5 6z"/>
+              </svg>
+              <a
+                href="https://instagram.com/HaruanaCachorroski"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline text-sky-700"
+              >
+                @HaruanaCachorroski
+              </a>
+            </div>
+          </div>
 
-    {/* Linha divisória */}
-    <div className="h-px bg-slate-200 my-4" />
+          {/* Linha divisória */}
+          <div className="h-px bg-slate-200 my-4" />
 
-    {/* Copyright */}
-    <div className="text-center text-slate-600 text-sm">
-      © 2025 RecursalPrev. Todos os direitos reservados.
-    </div>
-  </div>
-</footer>
-
+          {/* Copyright */}
+          <div className="text-center text-slate-600 text-sm">
+            © 2025 RecursalPrev. Todos os direitos reservados.
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
+
