@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { ReactTyped } from "react-typed";
 
 // Alerta
@@ -22,11 +22,8 @@ function Alert({ type = "success", children }) {
 }
 
 export default function RecursalPrevLanding() {
-  const FORMSPREE_ENDPOINT = "";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // ✅ use formStatus para evitar conflito com window.status
   const [formStatus, setFormStatus] = useState({ ok: false, error: "" });
 
   const [form, setForm] = useState({
@@ -39,11 +36,27 @@ export default function RecursalPrevLanding() {
     consent: false,
   });
 
+  // validação leve
+  const emailOk = useMemo(() => /.+@.+\..+/.test(form.email.trim()), [form.email]);
+  const nomeOk = useMemo(() => form.nome.trim().length >= 3, [form.nome]);
+  const readyToSubmit = nomeOk && emailOk && form.consent && !loading;
+
+  // máscara simples
+  function maskWhats(v) {
+    const digits = v.replace(/\D/g, "");
+    if (!digits) return "";
+    const d = digits.padEnd(11, "");
+    return `(${d.slice(0, 2)}) ${d.slice(2, 3)} ${d.slice(3, 7)}-${d.slice(7, 11)}`
+      .trim()
+      .replace(/[-\s]+$/, "");
+  }
+
   const planos = [
-    { nome: "Avulso", preco: "R$ 599", sub: "por recurso", extras: "Uso sob demanda", features: ["1 recurso por vez", "Entrega em até 7 dias úteis"] },
+    { nome: "Avulso", preco: "R$ 599", sub: "por recurso", extras: "Uso sob demanda para peças simples", features: ["1 recurso por vez", "Entrega em até 7 dias úteis"] },
+    { nome: "Avulso Especial", preco: "R$ 1.599", sub: "por recurso", extras: "Recurso para Instâncias Superiores", features: ["1 recurso por vez", "Entrega em até 7 dias úteis", "Instâncias: TRU, TNU, STJ, STF."] },
     { nome: "Lite", preco: "R$ 1.999", sub: "por mês", extras: "Atende demandas sazonais", features: ["5 recursos por mês","Carência de 1 mês","Suporte via chat","R$ 499 por recurso adicional"] },
-    { nome: "Pro", preco: "R$ 7.999", sub: "por mês", extras: "Ideal para demandas de médio prazo", features: ["40 recursos por mês","Bônus de 3 recursos no mês","Carência de 6 meses","Suporte via chat","30 minutos/mês em reuniões online","R$ 299 por recurso adicional"] },
-    { nome: "Premium", preco: "R$ 9.999", sub: "por mês", extras: "Ótimo para escalar e padronizar recursos", features: ["60 recursos por mês","Bônus de 5 recursos no mês","Carência mínima de 12 meses","Suporte via chat","60 minutos/mês em reuniões online","R$ 199 por recurso adicional"] },
+    { nome: "Pro", preco: "R$ 7.999", sub: "por mês", extras: "Ideal para demandas de médio prazo", features: ["40 recursos por mês","Bônus de 3 recursos no mês","Carência de 6 meses","Suporte via chat","20 minutos/mês em reuniões online","R$ 299 por recurso adicional"] },
+    { nome: "Premium", preco: "R$ 9.999", sub: "por mês", extras: "Ótimo para escalar e padronizar recursos", features: ["60 recursos por mês","Bônus de 5 recursos no mês","Carência mínima de 12 meses","Suporte via chat","40 minutos/mês em reuniões online","R$ 199 por recurso adicional"] },
   ];
 
   function scrollToId(id) {
@@ -51,11 +64,10 @@ export default function RecursalPrevLanding() {
     setMobileOpen(false);
   }
 
-  // ✅ handleSubmit real chamando a API da Vercel
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    setFormStatus({ ok: false, error: "" }); // zera estado anterior
+    setFormStatus({ ok: false, error: "" });
 
     try {
       const res = await fetch("/api/send-email", {
@@ -84,9 +96,26 @@ export default function RecursalPrevLanding() {
     }
   }
 
+  // paleta por plano (cores novas p/ Avulso Especial)
+  const palette = {
+    Avulso: { border: "border-slate-200", price: "text-slate-800", btn: "bg-slate-900" },
+    "Avulso Especial": { border: "border-purple-400", price: "text-purple-700", btn: "bg-purple-600" },
+    Lite: { border: "border-sky-300", price: "text-sky-700", btn: "bg-sky-600" },
+    Pro: { border: "border-slate-900", price: "text-slate-900", btn: "bg-slate-900" },
+    Premium: { border: "border-amber-500", price: "text-amber-600", btn: "bg-amber-500" },
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
-      {/* HEADER (full width com padding dinâmico) */}
+      {/* CSS do letreiro */}
+      <style>{`
+        @keyframes rp-marquee { 
+          0% { transform: translateX(100%); } 
+          100% { transform: translateX(-100%); } 
+        }
+      `}</style>
+
+      {/* HEADER */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
         <div className="w-full px-[5vw] sm:px-[6vw] lg:px-[8vw] py-3 flex items-center justify-between">
           <button onClick={() => scrollToId("top")} className="flex items-center gap-2" aria-label="Ir para o topo">
@@ -124,6 +153,19 @@ export default function RecursalPrevLanding() {
           </button>
         </div>
 
+        {/* Banner letreiro */}
+        <div className="w-full overflow-hidden border-t border-slate-200 bg-slate-900 text-white">
+          <div
+            className="whitespace-nowrap py-2 text-sm tracking-wide"
+            style={{ animation: "rp-marquee 40s linear infinite" }}
+          >
+            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
+            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
+            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
+            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
+          </div>
+        </div>
+
         {/* Menu Mobile */}
         <div className={["md:hidden px-[5vw] pb-3 transition-all duration-200", mobileOpen ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"].join(" ")}>
           <div className="rounded-2xl border border-slate-200 bg-white p-3 grid gap-1">
@@ -150,10 +192,6 @@ export default function RecursalPrevLanding() {
         id="top"
         className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] pt-20 sm:pt-24 pb-12 sm:pb-16 text-center"
       >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium bg-slate-100 text-slate-700">
-          {/* Operando com revisão jurídica especializada */}
-        </div>
-
         <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
           <ReactTyped
             strings={["Recursos previdenciários padronizados e com qualidade"]}
@@ -201,12 +239,13 @@ export default function RecursalPrevLanding() {
                 Com quase <strong>20 anos de atuação</strong> em prática recursal, o Dr. Haruanã é reconhecido por sua ética e excelência técnica em sustentações orais e peças recursais.
               </p>
 
-              <div className="text-sm text-slate-600 mt-4 space-y-1">
+              {/* <div className="text-sm text-slate-600 mt-4 space-y-1">
                 <a href="https://instagram.com/HaruanaCachorroski" target="_blank" rel="noreferrer" className="font-semibold text-slate-900 hover:underline">
                   @HaruanaCachorroski
                 </a>
-                <div>haruanacachorroski@gmail.com • (83) 98803-0180</div>
-              </div>
+                Telefone atualizado
+                <div>haruanacachorroski@gmail.com • (83) 98616-9783</div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -278,14 +317,9 @@ export default function RecursalPrevLanding() {
           <h2 className="text-2xl sm:text-3xl font-semibold text-center">Planos RecursalPrev</h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 text-center">Planos elaborados para atender suas necessidades.</p>
 
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
+         
             {planos.map((p) => {
-              const palette = {
-                Avulso: { border: "border-slate-200", price: "text-slate-800", btn: "bg-slate-900" },
-                Lite: { border: "border-sky-300", price: "text-sky-700", btn: "bg-sky-600" },
-                Pro: { border: "border-slate-900", price: "text-slate-900", btn: "bg-slate-900" },
-                Premium: { border: "border-amber-500", price: "text-amber-600", btn: "bg-amber-500" },
-              };
               const colors = palette[p.nome] || palette.Avulso;
               const isPro = p.nome === "Pro";
 
@@ -308,15 +342,17 @@ export default function RecursalPrevLanding() {
 
                   <div className="flex-1">
                     <div className="text-lg font-semibold">{p.nome}</div>
-                    <div className={["mt-2 font-bold flex items-start", colors.price].join(" ")}>
-                      <span className="text-3xl md:text-4xl">{p.preco}</span>
-                      {p.nome !== "Avulso" && (
+                      <div className={["mt-2 font-bold flex items-baseline flex-wrap", colors.price].join(" ")}>
+                      <span className="text-3xl md:text-4xl whitespace-nowrap">{p.preco}</span>
+                      {p.nome !== "Avulso" && p.nome !== "Avulso Especial" && (
                         <span className="align-super text-xs md:text-sm text-slate-500 ml-1">
-                          {p.sub && (p.sub.includes("mês") ? "/mês" : p.sub.includes("ano") ? "/ano" : `/${p.sub.replace("por ", "")}`)}
+                          {p.sub && (p.sub.includes("mês") ? "mês" : p.sub.includes("ano") ? "/ano" : `/${p.sub.replace("por ", "")}`)}
                         </span>
                       )}
                     </div>
-                    {p.nome === "Avulso" && <div className="text-slate-500 text-sm">{p.sub}</div>}
+                    {(p.nome === "Avulso" || p.nome === "Avulso Especial") && (
+                      <div className="text-slate-500 text-sm">{p.sub}</div>
+                    )}
                     {p.extras && <div className="mt-2 text-slate-600 text-sm">{p.extras}</div>}
                     <ul className="mt-4 grid gap-2 text-sm text-slate-700">
                       {p.features.map((f) => <li key={f}>• {f}</li>)}
@@ -342,16 +378,15 @@ export default function RecursalPrevLanding() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-start">
             <div>
               <h2 className="text-2xl sm:text-3xl font-semibold">Solicite uma proposta</h2>
-              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos em até 1 dia útil com condições para o seu volume.</p>
+              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos com condições para o seu volume.</p>
               <ul className="mt-6 grid gap-2 text-slate-700 text-sm">
-                <li>• Proposta em até 5 dia útil</li>
+                <li>• Proposta em até 5 dias úteis</li>
                 <li>• Onboarding assistido</li>
                 <li>• Suporte com especialista</li>
               </ul>
             </div>
 
             <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 p-4 sm:p-6 bg-white shadow-sm" noValidate>
-              {/* Feedback de envio */}
               {formStatus.ok && (
                 <Alert type="success">
                   <strong>Enviado!</strong> Recebemos sua solicitação. Em breve entraremos em contato.
@@ -367,17 +402,17 @@ export default function RecursalPrevLanding() {
               <div className="grid gap-4">
                 <div className="grid gap-1">
                   <label className="text-sm" htmlFor="nome">Nome completo*</label>
-                  <input id="nome" className="h-11 rounded-xl border border-slate-300 px-3 w-full" value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} placeholder="Ex.: Ana Silva" required />
+                  <input id="nome" className={`h-11 rounded-xl border px-3 w-full ${nomeOk ? "border-slate-300" : "border-rose-400"}`} value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} placeholder="Ex.: Ana Silva" required aria-invalid={!nomeOk} />
                 </div>
 
                 <div className="grid gap-1">
                   <label className="text-sm" htmlFor="email">E-mail profissional*</label>
-                  <input id="email" type="email" className="h-11 rounded-xl border border-slate-300 px-3 w-full" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="nome@escritorio.com.br" required />
+                  <input id="email" type="email" className={`h-11 rounded-xl border px-3 w-full ${emailOk ? "border-slate-300" : "border-rose-400"}`} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="nome@escritorio.com.br" required aria-invalid={!emailOk} />
                 </div>
 
                 <div className="grid gap-1">
                   <label className="text-sm" htmlFor="whats">WhatsApp</label>
-                  <input id="whats" className="h-11 rounded-xl border border-slate-300 px-3 w-full" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} placeholder="(DDD) 9 9999-9999" />
+                  <input id="whats" inputMode="tel" className="h-11 rounded-xl border border-slate-300 px-3 w-full" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: maskWhats(e.target.value) })} placeholder="(DD) 9 9999-9999" />
                 </div>
 
                 <div className="grid gap-1">
@@ -392,7 +427,7 @@ export default function RecursalPrevLanding() {
 
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={!readyToSubmit}
                   className="h-11 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 px-5"
                 >
                   {loading && (
@@ -410,15 +445,68 @@ export default function RecursalPrevLanding() {
       </section>
 
       {/* FOOTER */}
-      <footer id="contato" className="border-t border-slate-200">
-        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center">
-          <div>
-            <div className="font-semibold">RecursalPrev</div>
-            <p className="text-slate-600 text-sm mt-1">Recursos previdenciários para escritórios.</p>
-          </div>
-          <div className="md:justify-self-end text-sm text-slate-600">contato@recursalprev.com.br</div>
-        </div>
-      </footer>
+      <footer id="contato" className="border-t border-slate-200 bg-white">
+  <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-10 text-sm text-slate-700 text-center">
+    {/* Linha de contatos centralizada */}
+    <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 sm:gap-8 mb-6">
+      {/* CNPJ */}
+      <div className="flex items-center gap-2">
+        {/* Ícone documento */}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+          <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z"/>
+        </svg>
+        <span><strong>CNPJ:</strong> 63.391.044/0001-00</span>
+      </div>
+
+      {/* Telefone */}
+      <div className="flex items-center gap-2">
+        {/* Ícone telefone */}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+          <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z"/>
+        </svg>
+        <a href="tel:+5583986169783" className="hover:underline text-sky-700">
+          (83) 98616-9783
+        </a>
+      </div>
+
+      {/* E-mail */}
+      <div className="flex items-center gap-2">
+        {/* Ícone envelope */}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+          <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/>
+        </svg>
+        <a href="mailto:contato@recursalprev.com.br" className="hover:underline text-sky-700">
+          contato@recursalprev.com.br
+        </a>
+      </div>
+
+      {/* Instagram */}
+      <div className="flex items-center gap-2">
+        {/* Ícone Instagram */}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+          <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.5A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM17.5 6a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 17.5 6z"/>
+        </svg>
+        <a
+          href="https://instagram.com/HaruanaCachorroski"
+          target="_blank"
+          rel="noreferrer"
+          className="hover:underline text-sky-700"
+        >
+          @HaruanaCachorroski
+        </a>
+      </div>
+    </div>
+
+    {/* Linha divisória */}
+    <div className="h-px bg-slate-200 my-4" />
+
+    {/* Copyright */}
+    <div className="text-center text-slate-600 text-sm">
+      © 2025 RecursalPrev. Todos os direitos reservados.
+    </div>
+  </div>
+</footer>
+
     </div>
   );
 }
