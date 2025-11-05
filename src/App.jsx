@@ -54,7 +54,7 @@ export default function RecursalPrevLanding() {
   // planos (Avulso Especial na 2ª posição)
   const planos = [
     { nome: "Avulso", preco: "R$ 599", sub: "por recurso", extras: "Uso sob demanda para peças simples", features: ["1 recurso por vez", "Entrega em até 7 dias úteis"] },
-    { nome: "Avulso Especial", preco: "R$ 1.599", sub: "por recurso", extras: "Recurso para Instâncias Superiores", features: ["1 recurso por vez", "Entrega em até 7 dias úteis","Instâncias: TRU, TNU, STJ, STF." ] },
+    { nome: "Avulso Especial", preco: "R$ 1.599", sub: "por recurso", extras: "Recurso para Instâncias Superiores", features: ["1 recurso por vez", "Entrega em até 7 dias úteis", "Instâncias: TRU, TNU, STJ, STF."] },
     { nome: "Lite", preco: "R$ 1.999", sub: "mês", extras: "Atende demandas sazonais", features: ["5 recursos por mês","Carência de 1 mês","Suporte via chat","R$ 499 por recurso adicional"] },
     { nome: "Pro", preco: "R$ 7.999", sub: "mês", extras: "Ideal para demandas de médio prazo", features: ["40 recursos por mês","Bônus de 3 recursos no mês","Carência de 6 meses","Suporte via chat","20 minutos/mês em reuniões online","R$ 299 por recurso adicional"] },
     { nome: "Premium", preco: "R$ 9.999", sub: "mês", extras: "Ótimo para escalar e padronizar recursos", features: ["60 recursos por mês","Bônus de 5 recursos no mês","Carência mínima de 12 meses","Suporte via chat","40 minutos/mês em reuniões online","R$ 199 por recurso adicional"] },
@@ -107,7 +107,7 @@ export default function RecursalPrevLanding() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 overflow-x-hidden min-w-0">
       {/* CSS do letreiro */}
       <style>{`
         @keyframes rp-marquee { 
@@ -120,10 +120,8 @@ export default function RecursalPrevLanding() {
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
         <div className="w-full px-[5vw] sm:px-[6vw] lg:px-[8vw] py-3 flex items-center justify-between">
           <button onClick={() => scrollToId("top")} className="flex items-center gap-2" aria-label="Ir para o topo">
-            <div className="flex items-center gap-2">
-              <img src="/LogoPrincipal.png" alt="RecursalPrev" className="h-8 w-auto" />
-              <span className="font-semibold text-slate-800">RecursalPrev</span>
-            </div>
+            <img src="/LogoPrincipal.png" alt="RecursalPrev" className="h-8 w-auto" />
+            <span className="font-semibold text-slate-800">RecursalPrev</span>
           </button>
 
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -149,60 +147,37 @@ export default function RecursalPrevLanding() {
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Abrir menu"
             aria-expanded={mobileOpen}
+            aria-controls="rp-mobile-menu"
           >
             ☰
           </button>
         </div>
 
- 
-     
-        {/* Banner letreiro — sempre em uma linha (mobile safe) */}
-        <style>{`
-          @keyframes rp-marquee-line {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* move metade do trilho duplicado */
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .rp-marquee-line {
-              animation: none !important;
-              transform: none !important;
-            }
-          }
-        `}</style>
-
-        <div
-          className="
-            relative overflow-hidden border-t border-slate-200 bg-slate-900 text-white
-            [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]
-          "
-        >
-          {/* trilho duplicado */}
+        {/* Banner: estático no mobile, animado no desktop (não causa overflow) */}
+        <div className="w-full border-t border-slate-200 bg-slate-900 text-white">
+          <div className="sm:hidden text-center text-xs py-2">
+            Preço especial de lançamento + Black Friday
+          </div>
           <div
-            className="
-              rp-marquee-line flex w-[300%]
-              [animation:rp-marquee-line_30s_linear_infinite]
-            "
+            className="hidden sm:block whitespace-nowrap py-2 text-sm tracking-wide"
+            style={{ animation: "rp-marquee 40s linear infinite" }}
           >
-            {/* cópia 1 */}
-            <div className="flex items-left gap-12 w-1/2 shrink-0 py-2 text-xs sm:text-sm">
-              <span className="px-6">🚀 Preço especial de lançamento</span>
-              <span className="px-6">🔥 Black Friday</span>
-              <span className="px-6">🚀 Preço especial de lançamento</span>
-              <span className="px-6">🔥 Black Friday</span>
-              <span className="px-6">🚀 Preço especial de lançamento</span>
-              <span className="px-6">🔥 Black Friday</span>
-              <span className="px-6">🚀 Preço especial de lançamento</span>
-              <span className="px-6">🔥 Black Friday</span>
-        
-            </div>
+            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
+            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
+            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
+            <span className="mx-6">Preço especial de lançamento + Black Friday</span>
           </div>
         </div>
 
-
-
-        {/* Menu Mobile */}
-        <div className={["md:hidden px-[5vw] pb-3 transition-all duration-200", mobileOpen ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"].join(" ")}>
+        {/* Menu Mobile (sem altura nem padding quando fechado) */}
+        <div
+          id="rp-mobile-menu"
+          className={[
+            "md:hidden transition-[max-height,padding,opacity] duration-200 overflow-hidden",
+            mobileOpen ? "max-h-[480px] px-[5vw] pb-3 opacity-100" : "max-h-0 p-0 m-0 opacity-0"
+          ].join(" ")}
+          aria-hidden={!mobileOpen}
+        >
           <div className="rounded-2xl border border-slate-200 bg-white p-3 grid gap-1">
             {[
               ["Quem somos", "quem-somos"],
@@ -223,7 +198,7 @@ export default function RecursalPrevLanding() {
       </header>
 
       {/* HERO */}
-      <section id="top" className="w-full px-4 sm:px-[8vw] lg:px-[10vw] pt-16 sm:pt-24 pb-10 sm:pb-16 text-center">
+      <section id="top" className="relative z-0 w-full px-4 sm:px-[8vw] lg:px-[10vw] pt-12 sm:pt-24 pb-10 sm:pb-16 text-center">
         <h1 className="mt-2 text-2xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
           <ReactTyped
             strings={["Recursos previdenciários padronizados e com qualidade"]}
@@ -341,7 +316,7 @@ export default function RecursalPrevLanding() {
           <h2 className="text-2xl sm:text-3xl font-semibold text-center">Planos RecursalPrev</h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 text-center">Planos elaborados para atender suas necessidades.</p>
 
-          <div className="mt-8 grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 max-w-screen-xl mx-auto">
+          <div className="mt-8 grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 max-w-screen-xl mx-auto px-0 min-w-0">
             {planos.map((p) => {
               const colors = palette[p.nome] || palette.Avulso;
               const isPro = p.nome === "Pro";
@@ -350,7 +325,7 @@ export default function RecursalPrevLanding() {
                 <div
                   key={p.nome}
                   className={[
-                    "relative rounded-2xl border bg-white p-4 sm:p-6 lg:p-7 flex flex-col",
+                    "relative rounded-2xl border bg-white p-4 sm:p-6 lg:p-7 flex flex-col min-w-0",
                     "shadow-sm hover:shadow-md transition-shadow",
                     "min-h-[280px] md:min-h-[340px]",
                     colors.border,
@@ -364,28 +339,19 @@ export default function RecursalPrevLanding() {
                     </span>
                   )}
 
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="text-lg font-semibold">{p.nome}</div>
 
-                    {/* Preço: não quebrar “R$” */}
-                    <div className={["mt-2 font-bold flex items-baseline flex-wrap", colors.price].join(" ")}>
-                      {/* <span className="text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight tabular-nums sm:whitespace-nowrap whitespace-normal">
-                        {p.preco.replace(" ", "\u00A0")}
-                      </span> */}
-
-                      <span className="text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-tight tabular-nums sm:whitespace-nowrap whitespace-normal">
-                        {p.preco.replace(" ", "\u00A0")}
+                    {/* Preço seguro no mobile */}
+                    <div className={["mt-2 font-bold flex items-baseline gap-1", colors.price].join(" ")}>
+                      <span className="text-sm sm:text-base lg:text-lg leading-none">R$</span>
+                      <span className="text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-tight tabular-nums break-words max-w-full">
+                        {p.preco.replace("R$", "").trim()}
                       </span>
-
-
-
                       {p.nome !== "Avulso" && p.nome !== "Avulso Especial" && (
-                        <span className="align-super text-[11px] sm:text-xs md:text-sm text-slate-500 ml-1">
-                          {p.sub && (p.sub.includes("mês") ? "/mês" : p.sub.includes("ano") ? "/ano" : `/${p.sub.replace("por ", "")}`)}
-                        </span>
+                        <span className="text-[11px] sm:text-xs md:text-sm text-slate-500 ml-1">/mês</span>
                       )}
                     </div>
-
                     {(p.nome === "Avulso" || p.nome === "Avulso Especial") && (
                       <div className="text-slate-500 text-xs sm:text-sm">por recurso</div>
                     )}
@@ -416,7 +382,7 @@ export default function RecursalPrevLanding() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-start">
             <div>
               <h2 className="text-2xl sm:text-3xl font-semibold">Solicite uma proposta</h2>
-              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos com ascondições para o seu volume.</p>
+              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos com as condições para o seu volume.</p>
               <ul className="mt-6 grid gap-2 text-slate-700 text-sm">
                 <li>• Proposta em até 5 dia útil</li>
                 <li>• Onboarding assistido</li>
@@ -482,23 +448,18 @@ export default function RecursalPrevLanding() {
         </div>
       </section>
 
-      {/* FOOTER (contatos centralizados + copyright) */}
+      {/* FOOTER */}
       <footer id="contato" className="border-t border-slate-200 bg-white">
         <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-10 text-sm text-slate-700 text-center">
-          {/* Linha de contatos centralizada */}
           <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-6 mb-6">
-            {/* CNPJ */}
             <div className="flex items-center gap-2">
-              {/* Ícone documento */}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
                 <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z"/>
               </svg>
               <span><strong>CNPJ:</strong> 63.391.044/0001-00</span>
             </div>
 
-            {/* Telefone */}
             <div className="flex items-center gap-2">
-              {/* Ícone telefone */}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
                 <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z"/>
               </svg>
@@ -507,9 +468,7 @@ export default function RecursalPrevLanding() {
               </a>
             </div>
 
-            {/* E-mail */}
             <div className="flex items-center gap-2">
-              {/* Ícone envelope */}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
                 <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/>
               </svg>
@@ -518,9 +477,7 @@ export default function RecursalPrevLanding() {
               </a>
             </div>
 
-            {/* Instagram */}
             <div className="flex items-center gap-2">
-              {/* Ícone Instagram */}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
                 <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.5A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM17.5 6a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 17.5 6z"/>
               </svg>
@@ -535,10 +492,8 @@ export default function RecursalPrevLanding() {
             </div>
           </div>
 
-          {/* Linha divisória */}
           <div className="h-px bg-slate-200 my-4" />
 
-          {/* Copyright */}
           <div className="text-center text-slate-600 text-sm">
             © 2025 RecursalPrev. Todos os direitos reservados.
           </div>
@@ -547,4 +502,3 @@ export default function RecursalPrevLanding() {
     </div>
   );
 }
-
