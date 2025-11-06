@@ -464,7 +464,7 @@ export default function RecursalPrevLanding() {
                 <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z"/>
               </svg>
               <a href="tel:+5583986169783" className="hover:underline text-sky-700">
-                (83) 98616-9783
+                (83) 99938-3470
               </a>
             </div>
 
@@ -482,7 +482,7 @@ export default function RecursalPrevLanding() {
                 <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.5A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM17.5 6a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 17.5 6z"/>
               </svg>
               <a
-                href="https://instagram.com/HaruanaCachorroski"
+                href="https://instagram.com/recursalprev"
                 target="_blank"
                 rel="noreferrer"
                 className="hover:underline text-sky-700"
