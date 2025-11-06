@@ -487,7 +487,7 @@ export default function RecursalPrevLanding() {
                 rel="noreferrer"
                 className="hover:underline text-sky-700"
               >
-                @HaruanaCachorroski
+                @RecursalPrev
               </a>
             </div>
           </div>
