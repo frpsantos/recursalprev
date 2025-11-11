@@ -1,19 +1,29 @@
-import nodemailer from "nodemailer";
+// /api/send-email.js  (ESM, Microsoft Graph - client_credentials)
+
+// Requer as ENVs na Vercel:
+// GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_CLIENT_SECRET, GRAPH_FROM_USER
 
 export default async function handler(req, res) {
+  // CORS / preflight
   if (req.method === "OPTIONS") {
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     return res.status(200).end();
   }
+
   if (req.method === "GET") {
-    return res.status(200).json({ ok: true, msg: "send-email online. Use POST para enviar." });
+    return res
+      .status(200)
+      .json({ ok: true, msg: "send-email via Microsoft Graph online. Use POST." });
   }
+
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, error: "Método não permitido" });
   }
 
   try {
+    // parse robusto do body (caso o framework não parseie)
     let data = req.body;
     if (!data || typeof data !== "object") {
       const chunks = [];
@@ -22,59 +32,108 @@ export default async function handler(req, res) {
       data = text ? JSON.parse(text) : {};
     }
 
-    // checagem de envs do Microsoft 365
-    if (!process.env.M365_USER || !process.env.M365_PASS) {
-      console.error("ENV MISSING", { M365_USER: !!process.env.M365_USER, M365_PASS: !!process.env.M365_PASS });
-      return res.status(500).json({ ok: false, error: "SMTP envs do Microsoft ausentes" });
+    const {
+      GRAPH_TENANT_ID,
+      GRAPH_CLIENT_ID,
+      GRAPH_CLIENT_SECRET,
+      GRAPH_FROM_USER,
+    } = process.env;
+
+    if (!GRAPH_TENANT_ID || !GRAPH_CLIENT_ID || !GRAPH_CLIENT_SECRET || !GRAPH_FROM_USER) {
+      return res
+        .status(500)
+        .json({ ok: false, error: "Variáveis de ambiente do Graph ausentes" });
     }
 
     if (!data?.email || !data?.nome) {
-      return res.status(400).json({ ok: false, error: "Campos obrigatórios faltando" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "Campos obrigatórios faltando: nome, email" });
     }
 
-    // Transporter para Exchange Online (Office 365)
-    const transporter = nodemailer.createTransport({
-      host: "smtp.office365.com",
-      port: 587,
-      secure: false,            // STARTTLS
-      requireTLS: true,
-      auth: {
-        user: process.env.M365_USER,
-        pass: process.env.M365_PASS,
+    // 1) Token OAuth2 (client_credentials)
+    const tokenResp = await fetch(
+      `https://login.microsoftonline.com/${GRAPH_TENANT_ID}/oauth2/v2.0/token`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: GRAPH_CLIENT_ID,
+          client_secret: GRAPH_CLIENT_SECRET,
+          scope: "https://graph.microsoft.com/.default",
+          grant_type: "client_credentials",
+        }),
+      }
+    );
+
+    const tokenData = await tokenResp.json();
+    if (!tokenResp.ok || !tokenData.access_token) {
+      return res.status(500).json({
+        ok: false,
+        error: "Falha ao obter access_token do Graph",
+        details: tokenData,
+      });
+    }
+    const accessToken = tokenData.access_token;
+
+    // 2) Monta a mensagem
+    const mailPayload = {
+      message: {
+        subject: `Novo lead - ${data.nome}`,
+        body: {
+          contentType: "HTML",
+          content: `
+            <h2>Nova solicitação de proposta</h2>
+            <p><b>Nome:</b> ${data.nome}</p>
+            <p><b>Email:</b> ${data.email}</p>
+            <p><b>WhatsApp:</b> ${data.whatsapp || "-"}</p>
+            <p><b>Escritório:</b> ${data.escritorio || "-"}</p>
+            <p><b>Plano:</b> ${data.plano || "-"}</p>
+          `,
+        },
+        toRecipients: [
+          { emailAddress: { address: "frp.santos@hotmail.com" } },
+          { emailAddress: { address: "haruanacardoso@gmail.com" } },
+          { emailAddress: { address: "fernando@autrapay.com.br" } },
+        ],
+        // opcional: ao responder, vai para o lead
+        replyTo: [{ emailAddress: { address: data.email } }],
+        from: { emailAddress: { address: GRAPH_FROM_USER } },
       },
-      tls: {
-        // garante TLS moderno; rejeita cert inválido em prod
-        minVersion: "TLSv1.2",
-        rejectUnauthorized: true,
-      },
-      // Em serverless (Vercel) evite pooling
-      pool: false,
-    });
+      saveToSentItems: false,
+    };
 
-    await transporter.verify();
+    // 3) Envia via Graph
+    const sendResp = await fetch(
+      `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
+        GRAPH_FROM_USER
+      )}/sendMail`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(mailPayload),
+      }
+    );
 
-    const info = await transporter.sendMail({
-      from: `"RecursalPrev" <${process.env.M365_USER}>`,   // remetente TEM que ser do seu tenant
-      to: "frp.santos@hotmail.com,haruanacardoso@gmail.com,fernando@autrapay.com.br",
-      subject: `Novo lead - ${data.nome}`,
-      html: `
-        <h2>Nova solicitação de proposta</h2>
-        <p><b>Nome:</b> ${data.nome}</p>
-        <p><b>Email:</b> ${data.email}</p>
-        <p><b>WhatsApp:</b> ${data.whatsapp || "-"}</p>
-        <p><b>Escritório:</b> ${data.escritorio || "-"}</p>
-        <p><b>Plano:</b> ${data.plano || "-"}</p>
-      `,
-      replyTo: data.email, // opcional: ao responder vai para o lead
-    });
+    if (!sendResp.ok) {
+      const errText = await sendResp.text();
+      return res.status(sendResp.status).json({
+        ok: false,
+        error: "Falha ao enviar e-mail via Graph",
+        details: errText,
+      });
+    }
 
-    return res.status(200).json({ ok: true, messageId: info.messageId });
+    return res
+      .status(200)
+      .json({ ok: true, msg: "E-mail enviado com sucesso via Microsoft Graph" });
   } catch (err) {
-    console.error("SMTP ERROR:", {
-      message: err?.message, code: err?.code, command: err?.command, response: err?.response,
-    });
-    return res.status(500).json({
-      ok: false, error: err?.message || "Falha ao enviar", code: err?.code, command: err?.command, smtp: err?.response,
-    });
+    console.error("GRAPH SEND ERROR:", err);
+    return res
+      .status(500)
+      .json({ ok: false, error: err?.message || "Erro desconhecido" });
   }
 }
