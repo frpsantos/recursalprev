@@ -39,7 +39,16 @@ export default function RecursalPrevLanding() {
   // validação leve
   const emailOk = useMemo(() => /.+@.+\..+/.test(form.email.trim()), [form.email]);
   const nomeOk = useMemo(() => form.nome.trim().length >= 3, [form.nome]);
-  const readyToSubmit = nomeOk && emailOk && form.consent && !loading;
+  const readyToSubmit =
+  nomeOk &&
+  emailOk &&
+  form.whatsapp.trim() !== "" &&
+  form.escritorio.trim() !== "" &&
+  form.plano.trim() !== "" &&
+  form.consent &&
+  !loading;
+
+
 
   // máscara simples
   function maskWhats(v) {
@@ -311,10 +320,13 @@ export default function RecursalPrevLanding() {
       </section>
 
       {/* PLANOS */}
+
       <section id="planos" className="w-full">
         <div className="w-full px-4 sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-semibold text-center">Planos RecursalPrev</h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 text-center">Planos elaborados para atender suas necessidades.</p>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1 text-center">
+            Planos elaborados para atender suas necessidades.
+          </p>
 
           <div className="mt-8 grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 max-w-screen-xl mx-auto px-0 min-w-0">
             {planos.map((p) => {
@@ -343,29 +355,54 @@ export default function RecursalPrevLanding() {
                     <div className="text-lg font-semibold">{p.nome}</div>
 
                     {/* Preço seguro no mobile */}
-                    <div className={["mt-2 font-bold flex items-baseline gap-1", colors.price].join(" ")}>
+                    <div
+                      className={[
+                        "mt-2 font-bold flex items-baseline gap-1",
+                        colors.price,
+                      ].join(" ")}
+                    >
                       <span className="text-sm sm:text-base lg:text-lg leading-none">R$</span>
                       <span className="text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-tight tabular-nums break-words max-w-full">
                         {p.preco.replace("R$", "").trim()}
                       </span>
-                      {p.nome !== "Avulso" && p.nome !== "Avulso Especial" && (
-                        <span className="text-[11px] sm:text-xs md:text-sm text-slate-500 ml-1">/mês</span>
-                      )}
+                      {p.nome !== "Avulso" &&
+                        p.nome !== "Avulso Especial" && (
+                          <span className="text-[11px] sm:text-xs md:text-sm text-slate-500 ml-1">
+                            /mês
+                          </span>
+                        )}
                     </div>
+
                     {(p.nome === "Avulso" || p.nome === "Avulso Especial") && (
-                      <div className="text-slate-500 text-xs sm:text-sm">por recurso</div>
+                      <div className="text-slate-500 text-xs sm:text-sm">
+                        por recurso
+                      </div>
                     )}
 
-                    {p.extras && <div className="mt-2 text-slate-600 text-sm">{p.extras}</div>}
+                    {p.extras && (
+                      <div className="mt-2 text-slate-600 text-sm">{p.extras}</div>
+                    )}
 
                     <ul className="mt-4 grid gap-2 text-sm text-slate-700">
-                      {p.features.map((f) => <li key={f}>• {f}</li>)}
+                      {p.features.map((f) => (
+                        <li key={f}>• {f}</li>
+                      ))}
                     </ul>
                   </div>
 
+                  {/* botão corrigido */}
                   <button
-                    onClick={(e) => { e.preventDefault(); setForm({ ...form, plano: p.nome }); scrollToId("lead"); }}
-                    className={["mt-6 h-11 rounded-xl text-white font-medium hover:opacity-95 w-full sm:w-auto", colors.btn].join(" ")}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setForm((prev) => ({ ...prev, plano: p.nome })); // ✅ atualiza campo
+                      document
+                        .getElementById("lead")
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" }); // ✅ rola até o form
+                    }}
+                    className={[
+                      "mt-6 h-11 rounded-xl text-white font-medium hover:opacity-95 w-full sm:w-auto",
+                      colors.btn,
+                    ].join(" ")}
                   >
                     Selecionar
                   </button>
@@ -376,72 +413,185 @@ export default function RecursalPrevLanding() {
         </div>
       </section>
 
+
       {/* FORMULÁRIO */}
+
       <section id="lead" className="w-full">
         <div className="w-full px-4 sm:px-[8vw] lg:px-[10vw] py-14 sm:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-start">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-semibold">Solicite uma proposta</h2>
-              <p className="mt-3 text-slate-600 text-sm sm:text-base">Envie seus dados e retornamos com as condições para o seu volume.</p>
+              <h2 className="text-2xl sm:text-3xl font-semibold">
+                Solicite uma proposta
+              </h2>
+              <p className="mt-3 text-slate-600 text-sm sm:text-base">
+                Envie seus dados e retornamos com as condições para o seu volume.
+              </p>
               <ul className="mt-6 grid gap-2 text-slate-700 text-sm">
-                <li>• Proposta em até 5 dia útil</li>
+                <li>• Proposta em até 5 dias úteis</li>
                 <li>• Onboarding assistido</li>
                 <li>• Suporte com especialista</li>
               </ul>
             </div>
 
-            <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 p-4 sm:p-6 bg-white shadow-sm" noValidate>
+            <form
+              onSubmit={handleSubmit}
+              className="rounded-2xl border border-slate-200 p-4 sm:p-6 bg-white shadow-sm"
+              noValidate
+            >
               {formStatus.ok && (
                 <Alert type="success">
                   <strong>Enviado!</strong> Recebemos sua solicitação. Em breve entraremos em contato.
                 </Alert>
               )}
 
-              {formStatus.error && (
-                <Alert type="error">
-                  {formStatus.error}
-                </Alert>
-              )}
+              {formStatus.error && <Alert type="error">{formStatus.error}</Alert>}
 
               <div className="grid gap-4">
+                {/* PLANO */}
+                <div className="grid gap-1">
+                  <label className="text-sm" htmlFor="plano">
+                    Plano selecionado*
+                  </label>
+                  <select
+                    id="plano"
+                    required
+                    className="h-11 rounded-xl border border-slate-300 px-3 bg-white w-full"
+                    value={form.plano}
+                    onChange={(e) =>
+                      setForm({ ...form, plano: e.target.value })
+                    }
+                  >
+                    <option value="">Selecione um plano</option>
+                    <option value="Avulso">Avulso</option>
+                    <option value="Avulso Especial">Avulso Especial</option>
+                    <option value="Lite">Lite</option>
+                    <option value="Pro">Pro</option>
+                    <option value="Premium">Premium</option>
+                  </select>
+                </div>
+
+                {/* Nome */}
                 <div className="grid gap-1">
                   <label className="text-sm" htmlFor="nome">Nome completo*</label>
-                  <input id="nome" className={`h-11 rounded-xl border px-3 w-full ${nomeOk ? "border-slate-300" : "border-rose-400"}`} value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} placeholder="Ex.: Ana Silva" required aria-invalid={!nomeOk} />
+                  <input
+                      id="nome"
+                      required
+                      className="h-11 rounded-xl border border-slate-300 px-3 w-full"
+                      value={form.nome}
+                      onChange={(e) => setForm({ ...form, nome: e.target.value })}
+                      placeholder="Ex.: Ana Silva"
+                    />
+
                 </div>
 
+                {/* E-mail */}
                 <div className="grid gap-1">
-                  <label className="text-sm" htmlFor="email">E-mail profissional*</label>
-                  <input id="email" type="email" className={`h-11 rounded-xl border px-3 w-full ${emailOk ? "border-slate-300" : "border-rose-400"}`} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="nome@escritorio.com.br" required aria-invalid={!emailOk} />
+                  <label className="text-sm" htmlFor="email">
+                    E-mail profissional*
+                  </label>
+                 <input
+                      id="email"
+                      type="email"
+                      required
+                      className="h-11 rounded-xl border border-slate-300 px-3 w-full"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      placeholder="nome@escritorio.com.br"
+                    />
+
                 </div>
 
+                {/* WhatsApp */}
                 <div className="grid gap-1">
-                  <label className="text-sm" htmlFor="whats">WhatsApp</label>
-                  <input id="whats" inputMode="tel" className="h-11 rounded-xl border border-slate-300 px-3 w-full" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: maskWhats(e.target.value) })} placeholder="(DD) 9 9999-9999" />
+                  <label className="text-sm" htmlFor="whats">WhatsApp*</label>
+                  <input
+                    id="whats"
+                    inputMode="tel"
+                    required
+                    className="h-11 rounded-xl border border-slate-300 px-3 w-full"
+                    value={form.whatsapp}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        whatsapp: maskWhats(e.target.value),
+                      })
+                    }
+                    placeholder="(DD) 9 9999-9999"
+                  />
                 </div>
 
+                {/* Escritório */}
                 <div className="grid gap-1">
-                  <label className="text-sm" htmlFor="plano">Plano selecionado</label>
-                  <input id="plano" className="h-11 rounded-xl border border-slate-300 px-3 bg-slate-50 w-full" value={form.plano || "(nenhum)"} readOnly />
+                  <label className="text-sm" htmlFor="escritorio">
+                    Nome do escritório*
+                  </label>
+                  <input
+                    id="escritorio"
+                    required
+                    className="h-11 rounded-xl border border-slate-300 px-3 w-full"
+                    value={form.escritorio}
+                    onChange={(e) =>
+                      setForm({ ...form, escritorio: e.target.value })
+                    }
+                    placeholder="Ex.: Cardoso & Advogados"
+                  />
                 </div>
 
+                {/* LGPD */}
                 <label className="flex items-start gap-3 text-sm mt-1">
-                  <input type="checkbox" className="relative top-1" checked={form.consent} onChange={(e) => setForm({ ...form, consent: e.target.checked })} />
-                  <span>Concordo com o <a href="#contato" className="underline">tratamento de dados</a> para contato e demonstração (LGPD).</span>
+                  <input
+                    type="checkbox"
+                    className="relative top-1"
+                    checked={form.consent}
+                    onChange={(e) =>
+                      setForm({ ...form, consent: e.target.checked })
+                    }
+                    required
+                  />
+                  <span>
+                    Concordo com o{" "}
+                    <a href="#contato" className="underline">
+                      tratamento de dados
+                    </a>{" "}
+                    para contato e demonstração (LGPD).
+                  </span>
                 </label>
 
-                <button
-                  type="submit"
-                  disabled={!readyToSubmit}
-                  className="h-11 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 px-5"
-                >
-                  {loading && (
-                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"></path>
-                    </svg>
-                  )}
-                  {loading ? "Enviando…" : "Enviar solicitação"}
-                </button>
+                {/* Botão */}
+                  <button
+                    type="submit"
+                    disabled={!readyToSubmit || loading}
+                    title={
+                      !readyToSubmit
+                        ? "Preencha todos os campos obrigatórios para enviar a solicitação"
+                        : ""
+                    }
+                    className="h-11 rounded-xl bg-slate-900 text-white font-medium hover:opacity-95 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 px-5"
+                  >
+                    {loading && (
+                      <svg
+                        className="animate-spin h-4 w-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"
+                        ></path>
+                      </svg>
+                    )}
+                    {loading ? "Enviando…" : "Enviar solicitação"}
+                  </button>
               </div>
             </form>
           </div>
@@ -449,56 +599,57 @@ export default function RecursalPrevLanding() {
       </section>
 
       {/* FOOTER */}
-      <footer id="contato" className="border-t border-slate-200 bg-white">
-        <div className="w-full px-[5vw] sm:px-[8vw] lg:px-[10vw] py-10 text-sm text-slate-700 text-center">
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-6 mb-6">
-            <div className="flex items-center gap-2">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
-                <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z"/>
-              </svg>
-              <span><strong>CNPJ:</strong> 63.391.044/0001-00</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
-                <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z"/>
-              </svg>
-              <a href="tel:+5583986169783" className="hover:underline text-sky-700">
-                (83) 99938-3470
-              </a>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
-                <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/>
-              </svg>
-              <a href="mailto:contato@recursalprev.com.br" className="hover:underline text-sky-700">
-                contato@recursalprev.com.br
-              </a>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
-                <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.5A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM17.5 6a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 17.5 6z"/>
-              </svg>
-              <a
-                href="https://instagram.com/recursalprev"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:underline text-sky-700"
-              >
-                @RecursalPrev
-              </a>
-            </div>
-          </div>
-
-          <div className="h-px bg-slate-200 my-4" />
-
-          <div className="text-center text-slate-600 text-sm">
-            © 2025 RecursalPrev. Todos os direitos reservados.
-          </div>
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-6 mb-6">
+        {/* CNPJ */}
+        <div className="flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+            <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5z" />
+          </svg>
+          <a
+            href="https://cnpj.biz/63391044000100"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:underline text-sky-700"
+          >
+            <strong>CNPJ:</strong> 63.391.044/0001-00
+          </a>
         </div>
-      </footer>
-    </div>
-  );
+
+        {/* Telefone */}
+        <div className="flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+            <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z" />
+          </svg>
+          <a href="tel:+5583999383470" className="hover:underline text-sky-700">
+            (83) 99938-3470
+          </a>
+        </div>
+
+        {/* E-mail */}
+        <div className="flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+            <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z" />
+          </svg>
+          <a href="mailto:contato@recursalprev.com.br" className="hover:underline text-sky-700">
+            contato@recursalprev.com.br
+          </a>
+        </div>
+
+        {/* Instagram */}
+        <div className="flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="text-slate-900">
+            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.5A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM17.5 6a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 17.5 6z" />
+          </svg>
+          <a
+            href="https://instagram.com/recursalprev"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:underline text-sky-700"
+          >
+            @RecursalPrev
+          </a>
+        </div>
+      </div>
+          </div>
+        );
 }

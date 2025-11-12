@@ -39,6 +39,22 @@ export default async function handler(req, res) {
       GRAPH_FROM_USER,
     } = process.env;
 
+    // 🧩 insira AQUI a validação
+      if (
+        !data?.nome ||
+        !data?.email ||
+        !data?.whatsapp ||
+        !data?.escritorio ||
+        !data?.plano
+      ) {
+        return res.status(400).json({
+          ok: false,
+          error:
+            "Todos os campos são obrigatórios: nome, email, whatsapp, escritório e plano.",
+        });
+      }
+
+
     if (!GRAPH_TENANT_ID || !GRAPH_CLIENT_ID || !GRAPH_CLIENT_SECRET || !GRAPH_FROM_USER) {
       return res
         .status(500)
@@ -92,7 +108,7 @@ export default async function handler(req, res) {
           `,
         },
         toRecipients: [
-          { emailAddress: { address: "frp.santos@hotmail.com" } },
+          { emailAddress: { address: "recursalprev@gmail.com" } },
           { emailAddress: { address: "haruanacardoso@gmail.com" } },
           { emailAddress: { address: "fernando@autrapay.com.br" } },
         ],
